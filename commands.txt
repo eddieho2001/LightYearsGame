@@ -1,0 +1,7 @@
+add local project folder
+1 ) git init
+2 ) add .gitignore file
+3 ) git add -A #add all files
+4 ) git remote add origin https://github.com/eddieho2001/MyFirstRepos.git
+5 ) git push --set-upstream origin master
+
