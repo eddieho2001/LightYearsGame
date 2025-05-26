@@ -22,3 +22,24 @@ set(LIGHTYEARS_GAME_EXE_NAME LightYears)
 # add_subdirectory(engine)
 add_subdirectory(game) 
 
+#1. In order to use external library, we using cmake fetch content feature
+include(FetchContent)
+set(SFML_LIB_NAME SFML)
+FetchContent_Declare(
+	${SFML_LIB_NAME} 
+	GIT_REPOSITORY https://github.com/SFML/SFML.git
+	GIT_TAG 2.5.1
+	GIT_SHALLOW FALSE)
+FetchContent_MakeAvailable(${SFML_LIB_NAME})
+
+#2. After fetch lib we also  need to setup the linking
+target_link_libraries(${LIGHTYEARS_GAME_EXE_NAME} PUBLIC sfml-graphics)
+target_link_libraries(${LIGHTYEARS_GAME_EXE_NAME} PUBLIC sfml-audio)
+target_link_libraries(${LIGHTYEARS_GAME_EXE_NAME} PUBLIC sfml-main)
+target_link_libraries(${LIGHTYEARS_GAME_EXE_NAME} PUBLIC sfml-network)
+target_link_libraries(${LIGHTYEARS_GAME_EXE_NAME} PUBLIC sfml-system)
+target_link_libraries(${LIGHTYEARS_GAME_EXE_NAME} PUBLIC sfml-window)
+
+
+
+
