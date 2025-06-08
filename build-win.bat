@@ -7,8 +7,8 @@ rem generate cmake files
 cmake -G "Visual Studio 17 2022" -O . -B ./build -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=ON
 
 rem copy assets & .dll files to output dir
-robocopy "./resource"  "./build/bin/Debug/assets" /E
-robocopy "./windows/bin/"  "./build/bin/Debug/" /E
+rem robocopy "./resource"  "./build/bin/Debug/assets" /E
+rem robocopy "./windows/bin/"  "./build/bin/Debug/" /E
 
 rem compile project
 cd build && cmake --build . 
