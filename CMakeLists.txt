@@ -4,7 +4,7 @@ set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_CXX_STANDARD 17)
 
 # define the project with name as LightYears
-project(LightYears VERSION 1.0.0)
+project(LightYears VERSION 0.0.2)
 message(STATUS "project level --> PROJECT_NAME: ${PROJECT_NAME}")
 message(STATUS "project level --> CMAKE_PROJECT_NAME : ${CMAKE_PROJECT_NAME}")
 message(STATUS "project level --> PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR}")
@@ -15,9 +15,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 #create variable for executable target name
-
-
-
 
 #1. In order to use external library, we using cmake fetch content feature
 include(FetchContent)

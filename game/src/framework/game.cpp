@@ -1,6 +1,9 @@
 #include "framework/game.h"
 #include <iostream>
 
+const float Game::PlayerSpeed = 100.f;
+const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
+
 Game::Game()
 	: mWindow{ sf::VideoMode(640, 480), "SFML Application" },
 	  mPlayer{}, 
@@ -21,12 +24,19 @@ void Game::run() {
 	//In order to solve frame-dependent: because the physics engine require a fixed time constant to calculate many physic quantity
 	//Add a clock to measure time for each frame take
 	sf::Clock clock;
+	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	while (mWindow.isOpen())
 	{
 		//call three handler to processing tasks
-		sf::Time deltaTime = clock.restart();//return the elapsed timesince it start, and retart the clock from zero
-		processEvents();
-		update(deltaTime);
+		sf::Time elapsedTime = clock.restart();//return the elapsed timesince it start, and retart the clock from zero
+		timeSinceLastUpdate += elapsedTime;
+		while (timeSinceLastUpdate > TimePerFrame) {
+			timeSinceLastUpdate -= TimePerFrame;
+			processEvents();
+			update(TimePerFrame);
+		}
+		//processEvents();
+		
 		render();
 	}
 }
@@ -62,16 +72,16 @@ void Game::processEvents() {
  *	Because the update is frame-dependent(i.e. it depend on the time frame)
  *  In order to solve it we can apply the formula d = speed * time (delta time)
  */
-void Game::update(sf::Time& deltaTime) {
+void Game::update(sf::Time deltaTime) {
 	sf::Vector2f movement{ 0.f, 0.f };
 	if (mIsMovingUp)
-		movement.y -= 0.2f;
+		movement.y -= PlayerSpeed;
 	if (mIsMovingDown)
-		movement.y += 0.2f;
+		movement.y += PlayerSpeed;
 	if (mIsMovingLeft)
-		movement.x -= 0.2f;
+		movement.x -= PlayerSpeed;
 	if (mIsMovingRight)
-		movement.x += 0.2f;
+		movement.x += PlayerSpeed;
 
 	mPlayer.move(movement * deltaTime.asSeconds());
 }
