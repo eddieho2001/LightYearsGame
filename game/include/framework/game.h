@@ -1,16 +1,22 @@
 #pragma once
 #include<SFML/Graphics.hpp>
-
+//The class take the main function and divide them into three main parts
 class Game {
 public:
 	Game();
-	void run();
+	void run();//Handle the game loop
 private:
-	void processEvents();
-	void update();
-	void render();
+	//There are three necessary parts in game loop :  
+	void processEvents(); //1. Handle events
+	void update(sf::Time& deltaTime);        //2. Update game state 
+	void render();        //3. draw the changed on screen  
+	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 private:
 	sf::RenderWindow mWindow;
 	sf::CircleShape mPlayer;
+	bool mIsMovingUp;
+	bool mIsMovingDown;
+	bool mIsMovingLeft;
+	bool mIsMovingRight;
 
 };
