@@ -3,8 +3,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_CXX_STANDARD 17)
 
+set(CURRENT_VERSION 0.0.3)
 # define the project with name as LightYears
-project(LightYears VERSION 0.0.2)
+project(LightYears VERSION ${CURRENT_VERSION})
 message(STATUS "project level --> PROJECT_NAME: ${PROJECT_NAME}")
 message(STATUS "project level --> CMAKE_PROJECT_NAME : ${CMAKE_PROJECT_NAME}")
 message(STATUS "project level --> PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR}")
@@ -26,7 +27,7 @@ FetchContent_Declare(
 	GIT_SHALLOW FALSE)
 FetchContent_MakeAvailable(${SFML_LIB_NAME})
 
-set(LIGHTYEARS_GAME_EXE_NAME LightYears)
+set(LIGHTYEARS_GAME_EXE_NAME LightYears_${CURRENT_VERSION})
 #set(LIGHTYEARS_ENGINE_TARGET_NAME engine)
 #set(LIGHTYEARS_GAME_TARGET_NAME game)
 # add sub projects
