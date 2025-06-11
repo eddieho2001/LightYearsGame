@@ -13,9 +13,11 @@ private:
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 private:
 	sf::RenderWindow mWindow;
-	sf::CircleShape mPlayer;
+	//sf::CircleShape mPlayer;
+	sf::Sprite mPlayer;
+	sf::Texture mTexture;
 	static const float PlayerSpeed;
-	static const sf::Time TimePerFrame;
+	//static const sf::Time TimePerFrame;
 	bool mIsMovingUp;
 	bool mIsMovingDown;
 	bool mIsMovingLeft;

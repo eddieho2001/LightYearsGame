@@ -6,7 +6,8 @@ const float Game::PlayerSpeed = 100.f;
 
 Game::Game()
 	: mWindow{ sf::VideoMode(640, 480), "SFML Application" },
-	  mPlayer{}, 
+	  mPlayer{},
+	  mTexture{},
 	  mIsMovingUp{ false }, 
 	  mIsMovingDown{ false }, 
 	  mIsMovingLeft{ false }, 
@@ -14,9 +15,19 @@ Game::Game()
 	  mTargetFrameRate{60.f},//if 60 frame/s, i.e. is one frame is 0.01666666 second
 	  mTickClock{}
 {
+
+	if (!mTexture.loadFromFile("D:/MyDocs/GameDev/Udemy/LearnC++AndMakeaGameFromScratch/Section06/LightYearsGame/Eagle.png")) {
+		std::cout << "Load error!" << std::endl;
+	}
+	else {
+		mPlayer.setTexture(mTexture);
+		mPlayer.setPosition(100.f, 100.f);
+	}
+	/*
 	mPlayer.setRadius(40.f);
 	mPlayer.setPosition(100.f, 100.f);
 	mPlayer.setFillColor(sf::Color::Cyan);
+	*/
 }
 
 void Game::run() {
@@ -45,7 +56,9 @@ void Game::run() {
 		}
 		*/
 
-		accumulatedTime += mTickClock.restart().asSeconds();
+		float frameDeltaTime = mTickClock.restart().asSeconds();
+		//accumulatedTime += mTickClock.restart().asSeconds();
+		accumulatedTime += frameDeltaTime;
 		//check if the accumulatedTime > targetDeltaTime(0.0166666s), perform update
 		while (accumulatedTime > targetDeltaTime) {
 			/*
@@ -58,7 +71,7 @@ void Game::run() {
 			update(delta);
 		}
 
-
+		std::cout << "Tick for real frame rate : " << 1.f / frameDeltaTime << std::endl;
 
 		/*
 		sf::Time elapsedTime = clock.restart();//return the elapsed timesince it start, and retart the clock from zero
