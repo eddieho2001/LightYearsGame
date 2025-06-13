@@ -56,7 +56,39 @@ Version 0.0.4:
 	               - change the [$<TARGET_FILE:${LIB_NAME}>] to [$<TARGET_FILE_DIR:${LIB_NAME}>]
 				   - change CopyLibToTarget(sfml-graphics ${LIGHTYEARS_ENGINE_TARGET_NAME}) to CopyLibDirToTarget(${LIGHTYEARS_ENGINE_TARGET_NAME} ${LIGHTYEARS_GAME_TARGET_NAME})
 				     and remove the other
-				   
+	
+Version 0.0.5: add quill as logging library
+               1 ) get quill library : git clone https://github.com/odygrd/quill.git
+			   2 ) add set(QUILL_LIB_NAME quill) command to root CMakeLists.txt
+			   3 ) add add_subdirectory(quill) command to root CMakeLists.txt
+			   4 ) add target_include_directories(${LIGHTYEARS_ENGINE_TARGET_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/${QUILL_LIB_NAME}/include) command to engine/CMakeLists.txt 
+			       for engine library target can reference quill include files
+			   5 ) add target_link_libraries(${LIGHTYEARS_ENGINE_TARGET_NAME} PUBLIC quill::quill) command to engine/CMakeLists.txt 
+			       for engine library target can linking quill
+			   6 ) Add the follow code to EntryPoint.cpp main() function to initial the configuration & quill log backend server
+						
+						#include<quill/Backend.h>
+						#include<quill/Frontend.h>
+						#include<quill/LogMacros.h>
+						#include<quill/Logger.h>
+						#include<quill/sinks/ConsoleSink.h>
+						#include <quill/std/Array.h>
+						
+						...
+						
+						quill::BackendOptions options;
+						options.enable_yield_when_idle = true;
+						options.transit_event_buffer_initial_capacity = 64;  // Reduce initial buffer size
+						options.transit_events_soft_limit = 2048;  // Lower soft limit
+						options.transit_events_hard_limit = 8192;  // Reduce max buffer size
+	
+						quill::Backend::start(options);
+						auto console_sink = quill::Frontend::create_or_get_sink<quill::ConsoleSink>("sink_id_1");
+						quill::Logger* logger = quill::Frontend::create_or_get_logger("root", std::move(console_sink));
+						logger->set_log_level(quill::LogLevel::TraceL3);
+
+						LOG_INFO(logger, "Start Logging in Entry");
+			
 				
 	
 	

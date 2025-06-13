@@ -3,10 +3,13 @@ add_library(${LIGHTYEARS_ENGINE_TARGET_NAME} STATIC
 	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/application.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/application.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/EntryPoint.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/EntryPoint.cpp	
+	${CMAKE_CURRENT_SOURCE_DIR}/src/EntryPoint.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/Core.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/Core.cpp
  )
 
 target_include_directories(${LIGHTYEARS_ENGINE_TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(${LIGHTYEARS_ENGINE_TARGET_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/${QUILL_LIB_NAME}/include)
 
 #2. After fetch lib we also  need to setup the linking
 target_link_libraries(${LIGHTYEARS_ENGINE_TARGET_NAME} PUBLIC sfml-graphics)
@@ -15,6 +18,7 @@ target_link_libraries(${LIGHTYEARS_ENGINE_TARGET_NAME} PUBLIC sfml-main)
 target_link_libraries(${LIGHTYEARS_ENGINE_TARGET_NAME} PUBLIC sfml-network)
 target_link_libraries(${LIGHTYEARS_ENGINE_TARGET_NAME} PUBLIC sfml-system)
 target_link_libraries(${LIGHTYEARS_ENGINE_TARGET_NAME} PUBLIC sfml-window)
+target_link_libraries(${LIGHTYEARS_ENGINE_TARGET_NAME} PUBLIC quill::quill)
 
 function(CopyLibToTarget LIB_NAME TARGET_NAME)
 	add_custom_command(TARGET ${TARGET_NAME} 
