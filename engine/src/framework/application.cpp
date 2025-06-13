@@ -1,10 +1,10 @@
-#include "framework/game.h"
+#include "framework/application.h"
 #include <iostream>
 
-const float Game::PlayerSpeed = 100.f;
+const float ly::Application::PlayerSpeed = 100.f;
 //const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
 
-Game::Game()
+ly::Application::Application()
 	: mWindow{ sf::VideoMode(640, 480), "SFML Application" },
 	  mPlayer{},
 	  mTexture{},
@@ -30,7 +30,7 @@ Game::Game()
 	*/
 }
 
-void Game::run() {
+void ly::Application::run() {
 	//The game loop: An iteration of the game loop is often call frame/tick
 	//Frame per Second(FPS) - A measurement of how many loops iteration the game can do during a second.  
 	
@@ -88,7 +88,7 @@ void Game::run() {
 	}
 }
 
-void Game::processEvents() {
+void ly::Application::processEvents() {
 	sf::Event event;
 	while (mWindow.pollEvent(event))
 	{
@@ -119,7 +119,7 @@ void Game::processEvents() {
  *	Because the update is frame-dependent(i.e. it depend on the time frame)
  *  In order to solve it we can apply the formula d = speed * time (delta time)
  */
-void Game::update(sf::Time& deltaTime) {
+void ly::Application::update(sf::Time& deltaTime) {
 	std::cout << "Tick at frame rate : " << 1.f / deltaTime.asSeconds() << std::endl;
 	sf::Vector2f movement{ 0.f, 0.f };
 	if (mIsMovingUp)
@@ -134,13 +134,13 @@ void Game::update(sf::Time& deltaTime) {
 	mPlayer.move(movement * deltaTime.asSeconds());
 }
 
-void Game::render() {
+void ly::Application::render() {
 	mWindow.clear();
 	mWindow.draw(mPlayer);
 	mWindow.display();
 }
 
-void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
+void ly::Application::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 {
 	if (key == sf::Keyboard::Up) {
 		mIsMovingUp = isPressed;
