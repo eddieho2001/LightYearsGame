@@ -1,6 +1,8 @@
 #include "framework/application.h"
 #include "framework/World.h"
-#include <iostream>
+#include<quill/Frontend.h>
+#include<quill/LogMacros.h>
+#include<quill/sinks/ConsoleSink.h>
 
 const float ly::Application::PlayerSpeed = 100.f;
 //const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
@@ -18,8 +20,12 @@ ly::Application::Application()
 	  currentWorld{nullptr}
 {
 
+	mlogger = quill::Frontend::create_or_get_logger("app_log", quill::Frontend::create_or_get_sink<quill::ConsoleSink>("sink_id_1"));
+	mlogger->set_immediate_flush(true);
+
 	if (!mTexture.loadFromFile("D:/MyDocs/GameDev/Udemy/LearnC++AndMakeaGameFromScratch/Section06/LightYearsGame/Eagle.png")) {
-		std::cout << "Load error!" << std::endl;
+		//std::cout << "Load error!" << std::endl;
+		LOG_ERROR(mlogger, "Loading image error for Texture!");
 	}
 	else {
 		mPlayer.setTexture(mTexture);
@@ -70,8 +76,7 @@ void ly::Application::Run() {
 			RenderInternal();
 		}
 
-		std::cout << "Tick for real frame rate : " << 1.f / frameDeltaTime << std::endl;
-		
+		LOG_INFO(mlogger, "Tick for real frame rate : {}", 1.f / frameDeltaTime);
 	}
 }
 
@@ -101,18 +106,26 @@ void ly::Application::processEvents() {
 }
 
 void ly::Application::TickInternal(sf::Time& deltaTime) {
-	std::cout << "Tick at frame rate : " << 1.f / deltaTime.asSeconds() << std::endl;
-	sf::Vector2f movement{ 0.f, 0.f };
-	if (mIsMovingUp)
-		movement.y -= PlayerSpeed;
-	if (mIsMovingDown)
-		movement.y += PlayerSpeed;
-	if (mIsMovingLeft)
-		movement.x -= PlayerSpeed;
-	if (mIsMovingRight)
-		movement.x += PlayerSpeed;
+	LOG_INFO(mlogger, "Tick at frame rate : {}", 1.f / deltaTime.asSeconds());
+	LOG_INFO(mlogger, "Hanling the current world...{}", currentWorld!=nullptr?"Present":"Not Present");
+	if (currentWorld) {
+		Tick(deltaTime.asSeconds());
+	
+		currentWorld->TickInternal(deltaTime.asSeconds());
+	}
+	else {
 
-	Tick(movement * deltaTime.asSeconds());
+		sf::Vector2f movement{ 0.f, 0.f };
+		if (mIsMovingUp)
+			movement.y -= PlayerSpeed;
+		if (mIsMovingDown)
+			movement.y += PlayerSpeed;
+		if (mIsMovingLeft)
+			movement.x -= PlayerSpeed;
+		if (mIsMovingRight)
+			movement.x += PlayerSpeed;
+		Tick(movement * deltaTime.asSeconds());
+	}
 }
 
 void ly::Application::Tick(sf::Vector2f& movement) {

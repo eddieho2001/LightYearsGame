@@ -1,6 +1,8 @@
 #pragma once
 #include<SFML/Graphics.hpp>
+#include<quill/Logger.h>
 #include "framework/Core.h"
+
 /* 
  *  The class Application represent the whole game. 
  *  The class take the main function and divide them into three main parts
@@ -13,11 +15,15 @@ namespace ly{
 		Application();
 		void Run();//Handle the game loop
 
-		//The template function create World and return it shared pointer
+		/*
+		 * The template function create World object and return it as weak pointer, because the caller should not have the object ownership
+		 * The ownership is Application object!
+		 */
 		template<typename worldType>
 		weak<worldType> RoadWorld(){
 			shared<worldType> newWorld{ new worldType{this} };
 			currentWorld = newWorld;
+			currentWorld->BeginPlayInternal();
 			return newWorld;
 		}
 
@@ -36,7 +42,6 @@ namespace ly{
 
 	private:
 		sf::RenderWindow mWindow;
-		//sf::CircleShape mPlayer;
 		sf::Sprite mPlayer;
 		sf::Texture mTexture;
 		static const float PlayerSpeed;
@@ -48,6 +53,7 @@ namespace ly{
 		//The number of cycle as per second we will looking for
 		float mTargetFrameRate;
 		sf::Clock mTickClock;
+		quill::Logger* mlogger;
 
 		shared<World> currentWorld;
 	};
