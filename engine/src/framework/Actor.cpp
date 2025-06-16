@@ -31,4 +31,5 @@ void ly::Actor::Tick(float deltaTime)
 
 ly::Actor::~Actor()
 {
+	LOG_INFO(mlogger, "Actor Destoryed");
 }
