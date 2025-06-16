@@ -1,4 +1,5 @@
 #include "framework/application.h"
+#include "framework/World.h"
 #include <iostream>
 
 const float ly::Application::PlayerSpeed = 100.f;
@@ -13,7 +14,8 @@ ly::Application::Application()
 	  mIsMovingLeft{ false }, 
 	  mIsMovingRight{false},
 	  mTargetFrameRate{60.f},//if 60 frame/s, i.e. is one frame is 0.01666666 second
-	  mTickClock{}
+	  mTickClock{},
+	  currentWorld{nullptr}
 {
 
 	if (!mTexture.loadFromFile("D:/MyDocs/GameDev/Udemy/LearnC++AndMakeaGameFromScratch/Section06/LightYearsGame/Eagle.png")) {
@@ -23,14 +25,10 @@ ly::Application::Application()
 		mPlayer.setTexture(mTexture);
 		mPlayer.setPosition(100.f, 100.f);
 	}
-	/*
-	mPlayer.setRadius(40.f);
-	mPlayer.setPosition(100.f, 100.f);
-	mPlayer.setFillColor(sf::Color::Cyan);
-	*/
+	
 }
 
-void ly::Application::run() {
+void ly::Application::Run() {
 	//The game loop: An iteration of the game loop is often call frame/tick
 	//Frame per Second(FPS) - A measurement of how many loops iteration the game can do during a second.  
 	
@@ -68,23 +66,12 @@ void ly::Application::run() {
 			accumulatedTime -= targetDeltaTime;
 			processEvents();
 			sf::Time delta = sf::seconds(targetDeltaTime);
-			update(delta);
+			TickInternal(delta);
+			RenderInternal();
 		}
 
 		std::cout << "Tick for real frame rate : " << 1.f / frameDeltaTime << std::endl;
-
-		/*
-		sf::Time elapsedTime = clock.restart();//return the elapsed timesince it start, and retart the clock from zero
-		timeSinceLastUpdate += elapsedTime;
-		while (timeSinceLastUpdate > TimePerFrame) {
-			timeSinceLastUpdate -= TimePerFrame;
-			std::cout << "[run] ["<< TimePerFrame.asSeconds()<<"]: timeSinceLastUpdate = " << timeSinceLastUpdate.asSeconds() << std::endl;
-			processEvents();
-			update(TimePerFrame);
-		}
-		*/
 		
-		render();
 	}
 }
 
@@ -110,16 +97,10 @@ void ly::Application::processEvents() {
 			break;
 		}
 
-		//std::cout << "mIsMovingUp=" << mIsMovingUp << ", mIsMovingDown=" << mIsMovingDown << ", mIsMovingLeft=" << mIsMovingLeft << ", mIsMovingRight=" << mIsMovingRight << std::endl;
 	}
 }
 
-
-/* 
- *	Because the update is frame-dependent(i.e. it depend on the time frame)
- *  In order to solve it we can apply the formula d = speed * time (delta time)
- */
-void ly::Application::update(sf::Time& deltaTime) {
+void ly::Application::TickInternal(sf::Time& deltaTime) {
 	std::cout << "Tick at frame rate : " << 1.f / deltaTime.asSeconds() << std::endl;
 	sf::Vector2f movement{ 0.f, 0.f };
 	if (mIsMovingUp)
@@ -131,13 +112,27 @@ void ly::Application::update(sf::Time& deltaTime) {
 	if (mIsMovingRight)
 		movement.x += PlayerSpeed;
 
-	mPlayer.move(movement * deltaTime.asSeconds());
+	Tick(movement * deltaTime.asSeconds());
 }
 
-void ly::Application::render() {
+void ly::Application::Tick(sf::Vector2f& movement) {
+	mPlayer.move(movement);
+}
+
+void ly::Application::Tick(float deltaTime) {
+
+}
+
+void ly::Application::RenderInternal() {
 	mWindow.clear();
-	mWindow.draw(mPlayer);
+	Render();
 	mWindow.display();
+}
+
+void ly::Application::Render() {
+	
+	mWindow.draw(mPlayer);
+	
 }
 
 void ly::Application::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)

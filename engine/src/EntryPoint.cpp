@@ -23,6 +23,6 @@ int main() {
 	LOG_INFO(logger, "Start Logging in Entry");
 	
 	ly::Application* objApp = GetApplication();
-	objApp->run();
+	objApp->Run();
 
 }
