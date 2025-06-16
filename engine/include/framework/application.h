@@ -1,6 +1,10 @@
 #pragma once
 #include<SFML/Graphics.hpp>
-//The class take the main function and divide them into three main parts
+/* 
+ *  The class Application represent the whole game. 
+ *  The class take the main function and divide them into three main parts
+ */
+//
 namespace ly{
 	class Application {
 	public:

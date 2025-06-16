@@ -1,0 +1,25 @@
+@startuml
+
+class Application{
+	-sf::RenderWindow mWindow
+	-float mTargetFrameRate
+	-sf::Clock mTickClock
+	+Application()
+	+Run()
+	-TickInternal(float deltaTime)
+	-RenderInternal()
+	#virtual void Render()
+	#virtual void Tick(float deltaTime)
+	#quill::Logger* mlogger
+}
+
+
+class GameApplication{
+	+GameApplication()
+}
+
+Application <|--GameApplication
+
+
+
+@enduml
