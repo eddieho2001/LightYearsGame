@@ -1,12 +1,17 @@
 #include "framework/World.h"
+#include "framework/Actor.h"
 #include<quill/Frontend.h>
 #include<quill/LogMacros.h>
 #include<quill/sinks/ConsoleSink.h>
 
 ly::World::World(Application* ptrOwner)
-	:mPtrOwner{ ptrOwner }, mBeginPlay{false}
+	:mPtrOwner{ ptrOwner }, 
+	 mBeginPlay{false},
+	mActors{},
+	mPendingActors{}
+
 {
-	mlogger = quill::Frontend::create_or_get_logger("world", quill::Frontend::create_or_get_sink<quill::ConsoleSink>("sink_id_1"));
+	mlogger = quill::Frontend::create_or_get_logger("World", quill::Frontend::create_or_get_sink<quill::ConsoleSink>("sink_id_1"));
 	mlogger->set_immediate_flush(true);
 }
 
@@ -24,6 +29,20 @@ void ly::World::BeginPlayInternal()
 
 void ly::World::TickInternal(float deltaTime)
 {
+	for (shared<Actor> actor : mPendingActors) {
+		mActors.push_back(actor);
+		actor->BeginPlayInternal();
+	}
+
+	mPendingActors.clear();
+	for (shared<Actor> actor : mActors) {
+		
+		actor->Tick(deltaTime);
+	}
+	/*
+	for (auto iter = mActors.begin(); iter != mActors.end()) {
+		if(iter->get()-)
+	}*/
 	Tick(deltaTime);
 }
 

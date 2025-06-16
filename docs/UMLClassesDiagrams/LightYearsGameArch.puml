@@ -2,24 +2,51 @@
 
 class Application{
 	-sf::RenderWindow mWindow
+	-sf::Sprite mPlayer;
+	-sf::Texture mTexture;
 	-float mTargetFrameRate
 	-sf::Clock mTickClock
+	-quill::Logger* mlogger
 	+Application()
 	+Run()
+	+weak<worldType> RoadWorld()
 	-TickInternal(float deltaTime)
+	#virtual void Tick(float deltaTime)
 	-RenderInternal()
 	#virtual void Render()
-	#virtual void Tick(float deltaTime)
-	#quill::Logger* mlogger
 }
-
 
 class GameApplication{
 	+GameApplication()
 }
 
+class World{
+	-Application* mPtrOwner
+	-bool mBeginPlay
+	-List<shared<Actor>> mActors
+	-List<shared<Actor>> mPendingActors
+	-quill::Logger* mlogger
+	+World(Application* ptrOwner)
+	+weak<actorType> SpawnActors()
+	+void BeginPlayInternal();
+	+void TickInternal(float deltaTime)
+	+virtual ~World()
+    -void BeginPlay()	
+	-void Tick(float deltaTime)
+}	
+
+class Actor{
+	-World* mPtrOwner
+	-bool mIsBeginPlay
+	+Actor(World* ptrOwner)
+	+void BeginPlayInternal()
+	+virtual void BeginPlay()
+	+virtual void Tick(float deltaTime)
+	+virtual ~Actor()
+}
+
 Application <|--GameApplication
-
-
+Application *--World
+World *--Actor
 
 @enduml

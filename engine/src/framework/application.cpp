@@ -20,7 +20,7 @@ ly::Application::Application()
 	  currentWorld{nullptr}
 {
 
-	mlogger = quill::Frontend::create_or_get_logger("app_log", quill::Frontend::create_or_get_sink<quill::ConsoleSink>("sink_id_1"));
+	mlogger = quill::Frontend::create_or_get_logger("App", quill::Frontend::create_or_get_sink<quill::ConsoleSink>("sink_id_1"));
 	mlogger->set_immediate_flush(true);
 
 	if (!mTexture.loadFromFile("D:/MyDocs/GameDev/Udemy/LearnC++AndMakeaGameFromScratch/Section06/LightYearsGame/Eagle.png")) {
