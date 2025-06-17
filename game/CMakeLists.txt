@@ -20,6 +20,8 @@ endfunction()
 
 CopyLibDirToTarget(${LIGHTYEARS_ENGINE_TARGET_NAME} ${LIGHTYEARS_GAME_TARGET_NAME})
 
+
+#Handle relative path for game assets 
 set(ASSET_FOLDER_NAME "assets")
 set(ASSET_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${ASSET_FOLDER_NAME}")
 
@@ -32,5 +34,10 @@ add_custom_command(
 	$<TARGET_FILE_DIR:${LIGHTYEARS_GAME_TARGET_NAME}>/${ASSET_FOLDER_NAME}
 )
 
+message(STATUS "${LIGHTYEARS_GAME_TARGET_NAME} -  Copied assets from ${ASSET_SRC_DIR} to ${LIGHTYEARS_GAME_TARGET_NAME}/${ASSET_FOLDER_NAME}")
+message(STATUS "${LIGHTYEARS_GAME_TARGET_NAME} -  Modified config.h.in --> config.h for assets resources...")
 
-
+configure_file(
+	"config.h.in"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/config.h" ESCAPE_QUOTES
+)
