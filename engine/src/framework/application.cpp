@@ -7,8 +7,8 @@
 const float ly::Application::PlayerSpeed = 100.f;
 //const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
 
-ly::Application::Application()
-	: mWindow{ sf::VideoMode(640, 480), "SFML Application" },
+ly::Application::Application(unsigned int winWidth, unsigned int winHeight, const std::string& title, sf::Uint32 style)
+	: mWindow{ sf::VideoMode(winWidth, winHeight), title,  style },
 	  mPlayer{},
 	  mTexture{},
 	  mIsMovingUp{ false }, 

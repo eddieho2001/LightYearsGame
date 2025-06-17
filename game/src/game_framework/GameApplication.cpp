@@ -6,7 +6,9 @@ ly::Application* GetApplication(){
 	return new ly::GameApplication();
 }
 
-ly::GameApplication::GameApplication() {
+ly::GameApplication::GameApplication()
+	:Application{600, 980, "Light Years", sf::Style::Close|sf::Style::Titlebar}
+{
 	weak<World> newWorld = LoadWorld<World>();
 	newWorld.lock()->SpawnActors<Actor>();
 	mDeleteActor = newWorld.lock()->SpawnActors<Actor>();

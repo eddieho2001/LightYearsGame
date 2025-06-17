@@ -12,7 +12,7 @@ namespace ly{
 	class World;
 	class Application {
 	public:
-		Application();
+		Application(unsigned int winWidth, unsigned int winHeight, const std::string& title, sf::Uint32 style);
 		void Run();//Handle the game loop
 
 		/*
