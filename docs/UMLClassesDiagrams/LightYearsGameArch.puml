@@ -35,6 +35,14 @@ class World{
 	-void Tick(float deltaTime)
 }	
 
+class Object{
+	-bool mIsPendingDestory
+	+Object();
+	+virtual ~Object()
+	+void Destory()
+	+bool IsPendingDestory() const
+}
+
 class Actor{
 	-World* mPtrOwner
 	-bool mIsBeginPlay
@@ -48,5 +56,6 @@ class Actor{
 Application <|--GameApplication
 Application *--World
 World *--Actor
+Object <|--Actor
 
 @enduml

@@ -7,8 +7,19 @@ ly::Application* GetApplication(){
 }
 
 ly::GameApplication::GameApplication() {
-	weak<World> newWorld = RoadWorld<World>();
+	weak<World> newWorld = LoadWorld<World>();
 	newWorld.lock()->SpawnActors<Actor>();
-	newWorld.lock()->SpawnActors<Actor>();
-	newWorld.lock()->SpawnActors<Actor>();
+	mDeleteActor = newWorld.lock()->SpawnActors<Actor>();
+	counter = 0;
 }
+
+void ly::GameApplication::Tick(float deltaTime)
+{
+	counter += deltaTime;
+	if (counter > 2.f) {//After 2s, the actor to be deleted
+		if (!mDeleteActor.expired()) {
+			mDeleteActor.lock()->Destory();
+		}
+	}
+}
+	

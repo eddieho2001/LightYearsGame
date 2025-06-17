@@ -76,7 +76,7 @@ void ly::Application::Run() {
 			RenderInternal();
 		}
 
-		LOG_INFO(mlogger, "Tick for real frame rate : {}", 1.f / frameDeltaTime);
+		//LOG_INFO(mlogger, "Tick for real frame rate : {}", 1.f / frameDeltaTime);
 	}
 }
 
@@ -106,11 +106,11 @@ void ly::Application::processEvents() {
 }
 
 void ly::Application::TickInternal(sf::Time& deltaTime) {
-	LOG_INFO(mlogger, "Tick at frame rate : {}", 1.f / deltaTime.asSeconds());
-	LOG_INFO(mlogger, "Hanling the current world...{}", currentWorld!=nullptr?"Present":"Not Present");
+	//LOG_INFO(mlogger, "Tick at frame rate : {}", 1.f / deltaTime.asSeconds());
+	//LOG_INFO(mlogger, "Hanling the current world...{}", currentWorld!=nullptr?"Present":"Not Present");
+	
 	if (currentWorld) {
 		Tick(deltaTime.asSeconds());
-	
 		currentWorld->TickInternal(deltaTime.asSeconds());
 	}
 	else {

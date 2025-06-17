@@ -11,6 +11,7 @@ namespace ly {
 	 * 1 ) The basic for the class is set it begin
 	 * 2 ) Implement the tick function
 	 * 3 ) It manage a two set of lifetime of Actor class
+	 * 4 ) The Actor inheritacne from Object so that World class can manage the Actor lifetime
 	     
 	 */
 	class Application; //forward declaration

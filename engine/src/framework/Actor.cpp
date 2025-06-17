@@ -2,6 +2,7 @@
 #include<quill/Frontend.h>
 #include<quill/LogMacros.h>
 #include<quill/sinks/ConsoleSink.h>
+#include "framework/Core.h"
 
 ly::Actor::Actor(World* ptrOwner)
 	:mPtrOwner{ ptrOwner },
@@ -26,10 +27,11 @@ void ly::Actor::BeginPlay()
 
 void ly::Actor::Tick(float deltaTime)
 {
-	LOG_INFO(mlogger, "Ticking at {}", 1.f / deltaTime);
+	//LOG_INFO(mlogger, "Ticking at {}", 1.f / deltaTime);
 }
 
 ly::Actor::~Actor()
 {
-	LOG_INFO(mlogger, "Actor Destoryed");
+	_LOG("Actor destoryed");
+	LOG_INFO(mlogger, "Actor destoryed");
 }

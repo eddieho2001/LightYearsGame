@@ -20,7 +20,7 @@ namespace ly{
 		 * The ownership is Application object!
 		 */
 		template<typename worldType>
-		weak<worldType> RoadWorld(){
+		weak<worldType> LoadWorld(){
 			shared<worldType> newWorld{ new worldType{this} };
 			currentWorld = newWorld;
 			currentWorld->BeginPlayInternal();
