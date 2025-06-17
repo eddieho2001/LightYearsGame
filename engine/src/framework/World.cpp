@@ -1,5 +1,6 @@
 #include "framework/World.h"
 #include "framework/Actor.h"
+#include<SFML/Graphics.hpp>
 #include<quill/Frontend.h>
 #include<quill/LogMacros.h>
 #include<quill/sinks/ConsoleSink.h>
@@ -18,6 +19,13 @@ ly::World::World(Application* ptrOwner)
 ly::World::~World()
 {
 	LOG_INFO(mlogger, "World Destructed!");
+}
+
+void ly::World::Render(sf::RenderWindow& win)
+{
+	for (auto& actor : mActors) {
+		actor->Render(win);
+	}
 }
 
 void ly::World::BeginPlayInternal()
@@ -49,7 +57,7 @@ void ly::World::TickInternal(float deltaTime)
 			//The Actor have been remove from the list, but not yet be destructed!
 		}
 		else {
-			iter->get()->Tick(deltaTime);
+			iter->get()->TickInternal(deltaTime);
 			++iter;//it also need to increase the iterator
 		}
 	}

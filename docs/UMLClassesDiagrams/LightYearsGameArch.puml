@@ -17,7 +17,11 @@ class Application{
 }
 
 class GameApplication{
+	-float counter
+	-weak<Actor> mDeleteActor
 	+GameApplication()
+	+virtual void Tick(float deltaTime) override
+	
 }
 
 class World{
@@ -31,6 +35,7 @@ class World{
 	+void BeginPlayInternal();
 	+void TickInternal(float deltaTime)
 	+virtual ~World()
+	+void Render(sf::RenderWindow& win)
     -void BeginPlay()	
 	-void Tick(float deltaTime)
 }	
@@ -46,10 +51,15 @@ class Object{
 class Actor{
 	-World* mPtrOwner
 	-bool mIsBeginPlay
+	-sf::Sprite mSprite
+	-sf::Texture mTexture
 	+Actor(World* ptrOwner)
 	+void BeginPlayInternal()
 	+virtual void BeginPlay()
 	+virtual void Tick(float deltaTime)
+	+void TickInternal(float deltaTime)
+	+void SetTexture(const std::string& path)
+	+void Render(sf::RenderWindow& win)
 	+virtual ~Actor()
 }
 

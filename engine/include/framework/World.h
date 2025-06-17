@@ -22,6 +22,7 @@ namespace ly {
 		void BeginPlayInternal();
 		void TickInternal(float deltaTime);
 		virtual ~World();
+		void Render(sf::RenderWindow& win);
 
 		template<typename actorType>
 		weak<actorType> SpawnActors() {

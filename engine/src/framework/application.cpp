@@ -4,17 +4,11 @@
 #include<quill/LogMacros.h>
 #include<quill/sinks/ConsoleSink.h>
 
-const float ly::Application::PlayerSpeed = 100.f;
+//const float ly::Application::PlayerSpeed = 100.f;
 //const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
 
 ly::Application::Application(unsigned int winWidth, unsigned int winHeight, const std::string& title, sf::Uint32 style)
 	: mWindow{ sf::VideoMode(winWidth, winHeight), title,  style },
-	  mPlayer{},
-	  mTexture{},
-	  mIsMovingUp{ false }, 
-	  mIsMovingDown{ false }, 
-	  mIsMovingLeft{ false }, 
-	  mIsMovingRight{false},
 	  mTargetFrameRate{60.f},//if 60 frame/s, i.e. is one frame is 0.01666666 second
 	  mTickClock{},
 	  currentWorld{nullptr}
@@ -22,7 +16,7 @@ ly::Application::Application(unsigned int winWidth, unsigned int winHeight, cons
 
 	mlogger = quill::Frontend::create_or_get_logger("App", quill::Frontend::create_or_get_sink<quill::ConsoleSink>("sink_id_1"));
 	mlogger->set_immediate_flush(true);
-
+	/*
 	if (!mTexture.loadFromFile("D:/MyDocs/GameDev/Udemy/LearnC++AndMakeaGameFromScratch/Section06/LightYearsGame/Eagle.png")) {
 		//std::cout << "Load error!" << std::endl;
 		LOG_ERROR(mlogger, "Loading image error for Texture!");
@@ -31,7 +25,7 @@ ly::Application::Application(unsigned int winWidth, unsigned int winHeight, cons
 		mPlayer.setTexture(mTexture);
 		mPlayer.setPosition(100.f, 100.f);
 	}
-	
+	*/
 }
 
 void ly::Application::Run() {
@@ -49,7 +43,6 @@ void ly::Application::Run() {
 	while (mWindow.isOpen())
 	{
 		//call three handler to processing tasks
-		/*
 		sf::Event event;
 		while (mWindow.pollEvent(event))
 		{
@@ -58,7 +51,7 @@ void ly::Application::Run() {
 				mWindow.close();
 			}
 		}
-		*/
+		
 
 		float frameDeltaTime = mTickClock.restart().asSeconds();
 		//accumulatedTime += mTickClock.restart().asSeconds();
@@ -70,9 +63,9 @@ void ly::Application::Run() {
 				if greater than twice the inner while loop will update it twice. 
 			*/
 			accumulatedTime -= targetDeltaTime;
-			processEvents();
-			sf::Time delta = sf::seconds(targetDeltaTime);
-			TickInternal(delta);
+			//processEvents();
+			//sf::Time delta = sf::seconds(targetDeltaTime);
+			TickInternal(targetDeltaTime);
 			RenderInternal();
 		}
 
@@ -80,6 +73,14 @@ void ly::Application::Run() {
 	}
 }
 
+void ly::Application::TickInternal(float deltaTime) {
+	Tick(deltaTime);
+	if (currentWorld) {
+		currentWorld->TickInternal(deltaTime);
+	}
+}
+
+/*
 void ly::Application::processEvents() {
 	sf::Event event;
 	while (mWindow.pollEvent(event))
@@ -106,9 +107,6 @@ void ly::Application::processEvents() {
 }
 
 void ly::Application::TickInternal(sf::Time& deltaTime) {
-	//LOG_INFO(mlogger, "Tick at frame rate : {}", 1.f / deltaTime.asSeconds());
-	//LOG_INFO(mlogger, "Hanling the current world...{}", currentWorld!=nullptr?"Present":"Not Present");
-	
 	if (currentWorld) {
 		Tick(deltaTime.asSeconds());
 		currentWorld->TickInternal(deltaTime.asSeconds());
@@ -131,6 +129,7 @@ void ly::Application::TickInternal(sf::Time& deltaTime) {
 void ly::Application::Tick(sf::Vector2f& movement) {
 	mPlayer.move(movement);
 }
+*/
 
 void ly::Application::Tick(float deltaTime) {
 
@@ -144,10 +143,14 @@ void ly::Application::RenderInternal() {
 
 void ly::Application::Render() {
 	
-	mWindow.draw(mPlayer);
+	//The application contains world, we delegate it to actors class that in the world to draw itself!
+	if (currentWorld) {
+		currentWorld->Render(mWindow);
+	}
 	
 }
 
+/*
 void ly::Application::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 {
 	if (key == sf::Keyboard::Up) {
@@ -164,3 +167,4 @@ void ly::Application::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 	}
 	
 }
+*/

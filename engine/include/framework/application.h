@@ -29,27 +29,27 @@ namespace ly{
 
 	private:
 		//There are three necessary parts in game loop :  
-		void processEvents(); //1. Handle events
+		//void processEvents(); //1. Handle events
 		//void update(sf::Time& deltaTime);        //2. Update game state 
-		void TickInternal(sf::Time& deltaTime);
-		virtual void Tick(sf::Vector2f& movement);
+		//void TickInternal(sf::Time& deltaTime);
+		//virtual void Tick(sf::Vector2f& movement);
 		virtual void Tick(float deltaTime);
-
-		void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+		void TickInternal(float deltaTime);
+		//void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 		
 		virtual void Render();        //3. draw the changed on screen  
 		void RenderInternal();
 
 	private:
 		sf::RenderWindow mWindow;
-		sf::Sprite mPlayer;
-		sf::Texture mTexture;
-		static const float PlayerSpeed;
+		//sf::Sprite mPlayer;
+		//sf::Texture mTexture;
+		//static const float PlayerSpeed;
 		//static const sf::Time TimePerFrame;
-		bool mIsMovingUp;
-		bool mIsMovingDown;
-		bool mIsMovingLeft;
-		bool mIsMovingRight;
+		//bool mIsMovingUp;
+		//bool mIsMovingDown;
+		//bool mIsMovingLeft;
+		//bool mIsMovingRight;
 		//The number of cycle as per second we will looking for
 		float mTargetFrameRate;
 		sf::Clock mTickClock;
