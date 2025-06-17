@@ -12,7 +12,7 @@ ly::GameApplication::GameApplication()
 	weak<World> newWorld = LoadWorld<World>();
 	newWorld.lock()->SpawnActors<Actor>();
 	mDeleteActor = newWorld.lock()->SpawnActors<Actor>();
-	mDeleteActor.lock()->SetTexture("D:\\MyDocs\\GameDev\\Udemy\\LearnC++AndMakeaGameFromScratch\\Section06\\LightYearsGame\\resource\\assets\\SpaceShooterRedux\\PNG\\playerShip1_blue.png");
+	mDeleteActor.lock()->SetTexture("assets\\SpaceShooterRedux\\PNG\\playerShip1_blue.png");
 	counter = 0;
 }
 
