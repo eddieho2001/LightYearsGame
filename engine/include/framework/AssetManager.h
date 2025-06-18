@@ -13,6 +13,7 @@ namespace ly {
 	public:
 		static AssetManager& GetInstance();
 		shared<sf::Texture> LoadTexture(const std::string& path);
+		void CleanCycle();
 	protected:
 		//Note that the constructor here, only inetrnal code can do the initialization, outside the class cannot!
 		AssetManager();

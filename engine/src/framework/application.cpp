@@ -1,5 +1,7 @@
 #include "framework/application.h"
 #include "framework/World.h"
+#include "framework/AssetManager.h"
+
 #include<quill/Frontend.h>
 #include<quill/LogMacros.h>
 #include<quill/sinks/ConsoleSink.h>
@@ -11,7 +13,9 @@ ly::Application::Application(unsigned int winWidth, unsigned int winHeight, cons
 	: mWindow{ sf::VideoMode(winWidth, winHeight), title,  style },
 	  mTargetFrameRate{60.f},//if 60 frame/s, i.e. is one frame is 0.01666666 second
 	  mTickClock{},
-	  currentWorld{nullptr}
+	  currentWorld{nullptr},
+	  mCleanCycleClock{},
+	  mCleanCycleInterval{2.f}
 {
 
 	mlogger = quill::Frontend::create_or_get_logger("App", quill::Frontend::create_or_get_sink<quill::ConsoleSink>("sink_id_1"));
@@ -77,6 +81,13 @@ void ly::Application::TickInternal(float deltaTime) {
 	Tick(deltaTime);
 	if (currentWorld) {
 		currentWorld->TickInternal(deltaTime);
+	}
+
+	//call asset manager check and clean resource
+	if (mCleanCycleClock.getElapsedTime().asSeconds() >= mCleanCycleInterval) {
+		//Reset the clock and ask asset manager to clean
+		mCleanCycleClock.restart();
+		AssetManager::GetInstance().CleanCycle();
 	}
 }
 

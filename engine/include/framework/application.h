@@ -56,5 +56,10 @@ namespace ly{
 		quill::Logger* mlogger;
 
 		shared<World> currentWorld;
+
+		//We define a new clock for cycle checking texture reference
+		sf::Clock mCleanCycleClock;
+		float mCleanCycleInterval;
+
 	};
 }

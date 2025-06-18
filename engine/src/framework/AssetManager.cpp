@@ -33,6 +33,23 @@ namespace ly {
 		return shared<sf::Texture> {nullptr};
 	}
 
+	//loop entire map to check the reference
+	void AssetManager::CleanCycle()
+	{
+		int count{ 0 };
+		for (auto iter = mLoadedTextureMap.begin(); iter != mLoadedTextureMap.end();) {
+			if (iter->second.unique()) {
+				iter = mLoadedTextureMap.erase(iter);
+				count++;
+			}
+			else {
+				++iter;
+			}
+		}
+		_LOG("AssetManager.CleanCycle : clean count = %d", count);
+
+	}
+
 	ly::AssetManager::AssetManager()
 	{
 
