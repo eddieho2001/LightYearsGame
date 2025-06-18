@@ -2,6 +2,10 @@ message(STATUS "Sub Project/Target Name : ${LIGHTYEARS_GAME_TARGET_NAME} --> CMA
 add_executable(${LIGHTYEARS_GAME_TARGET_NAME} 
 	${CMAKE_CURRENT_SOURCE_DIR}/include/game_framework/GameApplication.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/game_framework/GameApplication.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/spaceship/Spaceship.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/spaceship/Spaceship.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/player/PlayerSpaceship.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/player/PlayerSpaceship.cpp
  )
 
 target_include_directories(${LIGHTYEARS_GAME_TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
