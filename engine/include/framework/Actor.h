@@ -21,6 +21,17 @@ namespace ly {
 		virtual ~Actor();
 		void SetTexture(const std::string& path);
 		void Render(sf::RenderWindow& win);
+		void SetLocation(const sf::Vector2f& newLocaltion);
+		sf::Vector2f GetLocation() const;
+		void SetRotation(float newRotation);
+		float GetRotataion() const;
+		void AddLocationOffset(const sf::Vector2f& offset);
+		void AddRotationOffset(float offset);
+
+		sf::Vector2f GetForwardDirection() const;
+		sf::Vector2f GetRightDirection() const;
+	private:
+		void CenterPivot();
 	private:
 		World* mPtrOwner;
 		bool mIsBeginPlay;

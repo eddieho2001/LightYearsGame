@@ -14,6 +14,8 @@ ly::GameApplication::GameApplication()
 	newWorld.lock()->SpawnActors<Actor>();
 	mDeleteActor = newWorld.lock()->SpawnActors<Actor>();
 	mDeleteActor.lock()->SetTexture(GetResourceDir() + "SpaceShooterRedux/PNG/playerShip1_blue.png");
+	mDeleteActor.lock()->SetLocation(sf::Vector2f(600 / 2, 980 / 2));
+	mDeleteActor.lock()->SetRotation(90.f);
 	counter = 0;
 }
 
@@ -22,7 +24,7 @@ void ly::GameApplication::Tick(float deltaTime)
 	counter += deltaTime;
 	if (counter > 2.f) {//After 2s, the actor to be deleted
 		if (!mDeleteActor.expired()) {
-			mDeleteActor.lock()->Destory();
+			//mDeleteActor.lock()->Destory();
 		}
 	}
 }
