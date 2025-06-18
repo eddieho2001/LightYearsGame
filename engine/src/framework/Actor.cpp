@@ -50,7 +50,18 @@ ly::Actor::~Actor()
 void ly::Actor::SetTexture(const std::string& path)
 {
 	//The GetInstance return static object, we use reference to hold it!
-	AssetManager& assetMgr = AssetManager::GetInstance();
+	//AssetManager& assetMgr = AssetManager::GetInstance();
+	mTexture = AssetManager::GetInstance().LoadTexture(path);
+	if (!mTexture) {
+		LOG_ERROR(mlogger, "Cannot load image from path({})", path);
+		return;
+	}
+	mSprite.setTexture(*mTexture);
+	int tWidth = mTexture->getSize().x;
+	int tHeight = mTexture->getSize().y;
+	mSprite.setTextureRect(sf::IntRect{ sf::Vector2i{}, sf::Vector2i{tWidth, tHeight} });
+
+	/*
 	if (!mTexture.loadFromFile(path)) {
 		LOG_ERROR(mlogger, "Cannot load image from path({})", path);
 	}
@@ -59,7 +70,7 @@ void ly::Actor::SetTexture(const std::string& path)
 		int tWidth = mTexture.getSize().x;
 		int tHeight = mTexture.getSize().y;
 		mSprite.setTextureRect(sf::IntRect{ sf::Vector2i{}, sf::Vector2i{tWidth, tHeight} });
-	}
+	}*/
 }
 
 void ly::Actor::Render(sf::RenderWindow& win)

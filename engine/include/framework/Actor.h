@@ -2,6 +2,7 @@
 #include<quill/Logger.h>
 #include "framework/Object.h"
 #include<SFML/Graphics.hpp>
+#include "framework/Core.h"
 
 
 namespace ly {
@@ -26,6 +27,6 @@ namespace ly {
 		quill::Logger* mlogger;
 		//Start to add visual component here 
 		sf::Sprite mSprite;
-		sf::Texture mTexture;
+		shared<sf::Texture> mTexture;
 	};
 }
