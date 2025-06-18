@@ -3,6 +3,7 @@
 #include<quill/LogMacros.h>
 #include<quill/sinks/ConsoleSink.h>
 #include "framework/Core.h"
+#include "framework/AssetManager.h"
 
 ly::Actor::Actor(World* ptrOwner, const std::string& texturePath)
 	:mPtrOwner{ ptrOwner },
@@ -48,6 +49,8 @@ ly::Actor::~Actor()
 
 void ly::Actor::SetTexture(const std::string& path)
 {
+	//The GetInstance return static object, we use reference to hold it!
+	AssetManager& assetMgr = AssetManager::GetInstance();
 	if (!mTexture.loadFromFile(path)) {
 		LOG_ERROR(mlogger, "Cannot load image from path({})", path);
 	}
