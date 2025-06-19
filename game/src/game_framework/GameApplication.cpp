@@ -21,7 +21,7 @@ ly::GameApplication::GameApplication()
 	//mTestPlayeSpaceship.lock()->SetTexture("SpaceShooterRedux/PNG/playerShip1_blue.png");
 	mTestPlayeSpaceship.lock()->SetLocation(sf::Vector2f(600 / 2, 980 / 2));
 	//mTestPlayeSpaceship.lock()->SetRotation(180.f);
-	mTestPlayeSpaceship.lock()->SetVelocity(sf::Vector2f{ 0.f, -200.f });
+	//mTestPlayeSpaceship.lock()->SetVelocity(sf::Vector2f{ 0.f, -200.f });
 	counter = 0;
 }
 
