@@ -1,5 +1,6 @@
 #include "player/PlayerSpaceship.h"
 #include "SFML/Graphics.hpp"
+#include <framework/MathUtility.h>
 
 ly::PlayerSpaceship::PlayerSpaceship(World* ptrOwner, const std::string& texturePath)
 	:Spaceship{ ptrOwner , texturePath }, mMoveInput{}, mfSpeed{200.f}
@@ -30,6 +31,12 @@ void ly::PlayerSpaceship::HandlingInput()
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		mMoveInput.x += 1.f;
 	}
+
+	/*
+		Becuase the move velocity depend on the x, y component of the move vector, we want the two component scale same rate
+		after normalized the player will move same speed with all direction.
+	*/
+	NormalizeInput();
 }
 
 void ly::PlayerSpaceship::ConsumeInput(float deltaTime)
@@ -39,6 +46,11 @@ void ly::PlayerSpaceship::ConsumeInput(float deltaTime)
 	mMoveInput.x = 0.f;
 	mMoveInput.y = 0.f;
 
+}
+
+void ly::PlayerSpaceship::NormalizeInput()
+{
+	Normalize(mMoveInput);
 }
 
 

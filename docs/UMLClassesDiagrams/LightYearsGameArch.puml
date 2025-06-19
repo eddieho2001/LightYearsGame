@@ -101,6 +101,18 @@ class Spaceship{
 	+sf::Vector2f GetVelocity() const { return mVelocity; }
 }
 
+class PlayerSpaceship{
+	-sf::Vector2f mMoveInput
+	-float mfSpeed
+	-void HandlingInput()
+	-void ConsumeInput(float deltaTime)
+	-void SetSpeed(float p_fNewSpeed)
+	-float GetSpeed() const
+	+PlayerSpaceship(World* ptrOwner, const std::string& texturePath="SpaceShooterRedux/PNG/playerShip1_blue.png")
+	+virtual void Tick(float deltaTime) override
+	
+}
+
 class AssetManager{
 	-static unique<AssetManager> mPtrAssetManager
 	-Dictionary<std::string, shared<sf::Texture>> mLoadedTextureMap
@@ -116,5 +128,6 @@ Application *--World
 World *--Actor
 Object <|--Actor
 Actor <|--Spaceship
+Spaceship <|--PlayerSpaceship
 
 @enduml

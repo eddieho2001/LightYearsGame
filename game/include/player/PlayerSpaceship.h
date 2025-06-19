@@ -11,6 +11,7 @@ namespace ly {
 		void ConsumeInput(float deltaTime);
 		void SetSpeed(float p_fNewSpeed) { mfSpeed = p_fNewSpeed; }
 		float GetSpeed() const { return mfSpeed; }
+		void NormalizeInput();
 	private:
 		sf::Vector2f mMoveInput;
 		float mfSpeed;
