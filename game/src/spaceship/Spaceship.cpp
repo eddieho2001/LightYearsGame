@@ -1,7 +1,8 @@
 #include "spaceship/Spaceship.h"
+#include "framework/World.h"
 
-ly::Spaceship::Spaceship(World* ptrOwner, std::string& p_strTexturePath)
-	:Actor{ ptrOwner , p_strTexturePath },
+ly::Spaceship::Spaceship(World* ptrOwner, const std::string& texturePath)
+	:Actor{ ptrOwner , texturePath },
 	mVelocity{}
 {
 

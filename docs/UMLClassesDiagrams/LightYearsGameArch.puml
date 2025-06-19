@@ -1,5 +1,26 @@
 @startuml
 
+class Core{
+	+template<typename T> using unique = std::unique_ptr<T>
+	+template<typename T> using shared = std::shared_ptr<T>
+	+template<typename T> using weak = std::weak_ptr<T>
+	+template<typename T> using List = std::vector<T>
+	+template<typename T> using Set = std::unordered_set<T>
+	+template<typename keyType, typename valType, typename compType = std::less<keyType>> using Map = std::map<keyType, valType, compType>
+	+template<typename keyType, typename valType, typename hasher = std::hash<keyType>> using Dictionary = std::unordered_map<keyType, valType, hasher>
+	+_LOG(M, ...) printf(M "\n", ##__VA_ARGS__)	
+}
+
+class EntryPoint{
+	+extern ly::Application* GetApplication()
+}
+
+class MathUtility{
+	+sf::Vector2f Rotation2Vecor(float rotation)
+	+float Degree2Radian(float degree)
+	+float Radian2Degree(float rad)
+}
+
 class Application{
 	-sf::RenderWindow mWindow
 	-sf::Sprite mPlayer;
@@ -53,6 +74,7 @@ class Actor{
 	-bool mIsBeginPlay
 	-sf::Sprite mSprite
 	-sf::Texture mTexture
+	-void CenterPivot()
 	+Actor(World* ptrOwner)
 	+void BeginPlayInternal()
 	+virtual void BeginPlay()
@@ -61,11 +83,38 @@ class Actor{
 	+void SetTexture(const std::string& path)
 	+void Render(sf::RenderWindow& win)
 	+virtual ~Actor()
+	+void SetLocation(const sf::Vector2f& newLocaltion)
+	+sf::Vector2f GetLocation() const
+	+void SetRotation(float newRotation)
+	+float GetRotataion() const
+	+void AddLocationOffset(const sf::Vector2f& offset)
+	+void AddRotationOffset(float offset)
+	+sf::Vector2f GetForwardDirection() const
+	+sf::Vector2f GetRightDirection() const
+}
+
+class Spaceship{
+	-sf::Vector2f mVelocity
+	+Spaceship(World* ptrOwner, const std::string& texturePath="")
+	+virtual void Tick(float deltaTime) override
+	+void SetVelocity(sf::Vector2f& newVelocity)
+	+sf::Vector2f GetVelocity() const { return mVelocity; }
+}
+
+class AssetManager{
+	-static unique<AssetManager> mPtrAssetManager
+	-Dictionary<std::string, shared<sf::Texture>> mLoadedTextureMap
+	#AssetManager()
+	+static AssetManager& GetInstance()
+	+shared<sf::Texture> LoadTexture(const std::string& path)
+	+void CleanCycle()
+	
 }
 
 Application <|--GameApplication
 Application *--World
 World *--Actor
 Object <|--Actor
+Actor <|--Spaceship
 
 @enduml

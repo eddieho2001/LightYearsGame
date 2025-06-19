@@ -20,12 +20,7 @@ namespace ly{
 		 * The ownership is Application object!
 		 */
 		template<typename worldType>
-		weak<worldType> LoadWorld(){
-			shared<worldType> newWorld{ new worldType{this} };
-			currentWorld = newWorld;
-			currentWorld->BeginPlayInternal();
-			return newWorld;
-		}
+		weak<worldType> LoadWorld();
 
 	private:
 		//There are three necessary parts in game loop :  
@@ -60,6 +55,14 @@ namespace ly{
 		//We define a new clock for cycle checking texture reference
 		sf::Clock mCleanCycleClock;
 		float mCleanCycleInterval;
-
 	};
+
+	template<typename worldType>
+	weak<worldType> Application::LoadWorld() {
+		shared<worldType> newWorld{ new worldType{this} };
+		currentWorld = newWorld;
+		currentWorld->BeginPlayInternal();
+		return newWorld;
+	}
+
 }

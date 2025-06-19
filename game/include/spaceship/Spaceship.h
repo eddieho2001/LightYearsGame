@@ -4,7 +4,7 @@
 namespace ly {
 	class Spaceship : public Actor {
 	public:
-		Spaceship(World *ptrOwner, std::string& p_strTexturePath);
+		Spaceship(World* ptrOwner, const std::string& texturePath="");
 		virtual void Tick(float deltaTime) override;
 		void SetVelocity(sf::Vector2f& newVelocity);
 		sf::Vector2f GetVelocity() const { return mVelocity; }

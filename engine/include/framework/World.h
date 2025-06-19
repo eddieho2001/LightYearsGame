@@ -25,11 +25,7 @@ namespace ly {
 		void Render(sf::RenderWindow& win);
 
 		template<typename actorType>
-		weak<actorType> SpawnActors() {
-			shared<actorType> newActor{ new actorType{this} };
-			mPendingActors.push_back(newActor);
-			return newActor;
-		}
+		weak<actorType> SpawnActors();
 
 	private:
 		void BeginPlay();
@@ -42,4 +38,11 @@ namespace ly {
 		quill::Logger* mlogger;
 
 	};
+
+	template<typename actorType>
+	weak<actorType> World::SpawnActors() {
+		shared<actorType> newActor{ new actorType{this} };
+		mPendingActors.push_back(newActor);
+		return newActor;
+	}
 }
