@@ -12,6 +12,7 @@ namespace ly {
 		void SetSpeed(float p_fNewSpeed) { mfSpeed = p_fNewSpeed; }
 		float GetSpeed() const { return mfSpeed; }
 		void NormalizeInput();
+		void ClampInputOnEdge();
 	private:
 		sf::Vector2f mMoveInput;
 		float mfSpeed;

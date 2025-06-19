@@ -28,7 +28,7 @@ namespace ly {
 	template<typename T>
 	sf::Vector2<T>& Normalize(sf::Vector2<T>& vec) {
 		float vecLen = Calculate2DVectorLength<T>(vec);
-		if (std::fabs(vecLen) < epsilon) return sf::Vector2<T>{};
+		if (std::fabs(vecLen) < epsilon) return vec;
 
 		return Scale2DVector(vec, 1.f/vecLen);
 	}

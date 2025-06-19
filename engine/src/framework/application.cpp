@@ -142,6 +142,11 @@ void ly::Application::Tick(sf::Vector2f& movement) {
 }
 */
 
+sf::Vector2u ly::Application::GetWinowSize() const
+{
+	return mWindow.getSize();
+}
+
 void ly::Application::Tick(float deltaTime) {
 
 }

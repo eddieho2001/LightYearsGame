@@ -22,6 +22,7 @@ namespace ly{
 		template<typename worldType>
 		weak<worldType> LoadWorld();
 
+		sf::Vector2u GetWinowSize() const;
 	private:
 		//There are three necessary parts in game loop :  
 		//void processEvents(); //1. Handle events

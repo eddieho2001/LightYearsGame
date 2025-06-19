@@ -32,6 +32,11 @@ void ly::PlayerSpaceship::HandlingInput()
 		mMoveInput.x += 1.f;
 	}
 
+	
+	/*
+	 * Control the  
+	 */
+	ClampInputOnEdge();
 	/*
 		Becuase the move velocity depend on the x, y component of the move vector, we want the two component scale same rate
 		after normalized the player will move same speed with all direction.
@@ -52,5 +57,30 @@ void ly::PlayerSpaceship::NormalizeInput()
 {
 	Normalize(mMoveInput);
 }
+
+void ly::PlayerSpaceship::ClampInputOnEdge()
+{
+	sf::Vector2f curLoc = GetLocation();
+	//Check if the postion x is on 0, and player still want to move left, set mMoveInput.x = 0
+	if (curLoc.x <= epsilon && mMoveInput.x == -1) {
+		mMoveInput.x = 0.f;
+	}
+
+	if (curLoc.x > GetWindowSize().x && mMoveInput.x == 1.f) {
+		mMoveInput.x = 0.f;
+	}
+
+	if (curLoc.y <= epsilon && mMoveInput.y == -1) {
+		mMoveInput.y = 0.f;
+	}
+
+	if (curLoc.y > GetWindowSize().y && mMoveInput.y == 1.f) {
+		mMoveInput.y = 0.f;
+	}
+
+
+
+}
+
 
 

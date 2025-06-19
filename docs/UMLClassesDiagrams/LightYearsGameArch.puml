@@ -9,6 +9,9 @@ class Core{
 	+template<typename keyType, typename valType, typename compType = std::less<keyType>> using Map = std::map<keyType, valType, compType>
 	+template<typename keyType, typename valType, typename hasher = std::hash<keyType>> using Dictionary = std::unordered_map<keyType, valType, hasher>
 	+_LOG(M, ...) printf(M "\n", ##__VA_ARGS__)	
+	+template<typename T> float Calculate2DVectorLength(const sf::Vector2<T>& vec)
+	+template<typename T> sf::Vector2<T>& Scale2DVector(sf::Vector2<T>& vec, float amount)
+	+template<typename T> sf::Vector2<T>& Normalize(sf::Vector2<T>& vec)
 }
 
 class EntryPoint{
@@ -108,6 +111,7 @@ class PlayerSpaceship{
 	-void ConsumeInput(float deltaTime)
 	-void SetSpeed(float p_fNewSpeed)
 	-float GetSpeed() const
+	-void NormalizeInput()
 	+PlayerSpaceship(World* ptrOwner, const std::string& texturePath="SpaceShooterRedux/PNG/playerShip1_blue.png")
 	+virtual void Tick(float deltaTime) override
 	

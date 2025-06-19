@@ -3,7 +3,7 @@
 #include "framework/Object.h"
 #include<SFML/Graphics.hpp>
 #include "framework/Core.h"
-
+#include "framework/World.h"
 
 namespace ly {
 	/*
@@ -30,6 +30,9 @@ namespace ly {
 
 		sf::Vector2f GetForwardDirection() const;
 		sf::Vector2f GetRightDirection() const;
+
+		sf::Vector2u GetWindowSize() const { return mPtrOwner->GetWindowSize(); }
+
 	private:
 		void CenterPivot();
 	private:

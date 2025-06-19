@@ -27,6 +27,8 @@ namespace ly {
 		template<typename actorType>
 		weak<actorType> SpawnActors();
 
+		sf::Vector2u GetWindowSize() const { return mPtrOwner->GetWinowSize(); }
+
 	private:
 		void BeginPlay();
 		void Tick(float deltaTime);
