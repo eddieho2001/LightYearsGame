@@ -14,6 +14,7 @@ namespace ly {
 		static AssetManager& GetInstance();
 		shared<sf::Texture> LoadTexture(const std::string& path);
 		void CleanCycle();
+		void SetAssetRootDir(const std::string& p_strDir);
 	protected:
 		//Note that the constructor here, only inetrnal code can do the initialization, outside the class cannot!
 		AssetManager();
@@ -22,5 +23,6 @@ namespace ly {
 		static unique<AssetManager> mPtrAssetManager;
 		//Dictionary<std::string&, shared<sf::Texture>> mLoadedTextureMap;
 		Dictionary<std::string, shared<sf::Texture>> mLoadedTextureMap;
+		std::string mRootDir;
 	};
 }

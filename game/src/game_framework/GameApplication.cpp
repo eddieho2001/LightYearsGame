@@ -1,7 +1,9 @@
+#include <framework/World.h>
+#include <framework/AssetManager.h>
+#include <framework/Actor.h>
+
 #include "game_framework/GameApplication.h"
-#include "framework/World.h"
-#include "framework/Actor.h"
-#include "spaceship/Spaceship.h"
+#include "player/PlayerSpaceship.h"
 #include "config.h"
 
 
@@ -12,10 +14,11 @@ ly::Application* GetApplication() {
 ly::GameApplication::GameApplication()
 	:Application{ 600, 980, "Light Years", sf::Style::Close | sf::Style::Titlebar }
 {
+	AssetManager::GetInstance().SetAssetRootDir(GetResourceDir());
 	weak<World> newWorld = LoadWorld<World>();
-	newWorld.lock()->SpawnActors<Spaceship>();
-	mTestPlayeSpaceship = newWorld.lock()->SpawnActors<Spaceship>();
-	mTestPlayeSpaceship.lock()->SetTexture(GetResourceDir() + "SpaceShooterRedux/PNG/playerShip1_blue.png");
+	newWorld.lock()->SpawnActors<Actor>();
+	mTestPlayeSpaceship = newWorld.lock()->SpawnActors<PlayerSpaceship>();
+	//mTestPlayeSpaceship.lock()->SetTexture("SpaceShooterRedux/PNG/playerShip1_blue.png");
 	mTestPlayeSpaceship.lock()->SetLocation(sf::Vector2f(600 / 2, 980 / 2));
 	//mTestPlayeSpaceship.lock()->SetRotation(180.f);
 	mTestPlayeSpaceship.lock()->SetVelocity(sf::Vector2f{ 0.f, -200.f });

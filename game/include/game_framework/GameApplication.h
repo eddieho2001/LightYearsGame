@@ -4,7 +4,7 @@
 
 namespace ly {
 	class Actor;
-	class Spaceship;
+	class PlayerSpaceship;
 	class GameApplication : public Application {
 	public:
 		GameApplication();
@@ -12,7 +12,7 @@ namespace ly {
 	private:
 		float counter;
 		//weak<Actor> mTestPlayeSpaceship;
-		weak<Spaceship> mTestPlayeSpaceship;
+		weak<PlayerSpaceship> mTestPlayeSpaceship;
 	};
 }
 

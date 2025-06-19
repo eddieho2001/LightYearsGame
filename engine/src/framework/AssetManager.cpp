@@ -24,7 +24,7 @@ namespace ly {
 		}
 
 		shared<sf::Texture> newTexture{ new sf::Texture };
-		if (newTexture->loadFromFile(path))
+		if (newTexture->loadFromFile(mRootDir + path))
 		{
 			mLoadedTextureMap.insert({ path, newTexture });
 			return newTexture;
@@ -50,7 +50,13 @@ namespace ly {
 
 	}
 
+	void AssetManager::SetAssetRootDir(const std::string& p_strDir)
+	{
+		mRootDir = p_strDir;
+	}
+
 	ly::AssetManager::AssetManager()
+		: mRootDir{}
 	{
 
 	}
