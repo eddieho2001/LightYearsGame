@@ -19,4 +19,9 @@ void ly::Spaceship::SetVelocity(sf::Vector2f& newVelocity)
 	mVelocity = newVelocity;
 }
 
+void ly::Spaceship::Shoot()
+{
+
+}
+
 

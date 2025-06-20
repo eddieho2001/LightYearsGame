@@ -24,6 +24,16 @@ class MathUtility{
 	+float Radian2Degree(float rad)
 }
 
+class AssetManager{
+	-static unique<AssetManager> mPtrAssetManager
+	-Dictionary<std::string, shared<sf::Texture>> mLoadedTextureMap
+	#AssetManager()
+	+static AssetManager& GetInstance()
+	+shared<sf::Texture> LoadTexture(const std::string& path)
+	+void CleanCycle()
+	
+}
+
 class Application{
 	-sf::RenderWindow mWindow
 	-sf::Sprite mPlayer;
@@ -102,28 +112,41 @@ class Spaceship{
 	+virtual void Tick(float deltaTime) override
 	+void SetVelocity(sf::Vector2f& newVelocity)
 	+sf::Vector2f GetVelocity() const { return mVelocity; }
+	+virtual void Shoot()
 }
 
 class PlayerSpaceship{
 	-sf::Vector2f mMoveInput
 	-float mfSpeed
+	-unique<BulletShooter> mShooter
 	-void HandlingInput()
 	-void ConsumeInput(float deltaTime)
 	-void SetSpeed(float p_fNewSpeed)
 	-float GetSpeed() const
 	-void NormalizeInput()
+	-void ClampInputOnEdge()
 	+PlayerSpaceship(World* ptrOwner, const std::string& texturePath="SpaceShooterRedux/PNG/playerShip1_blue.png")
 	+virtual void Tick(float deltaTime) override
+	+virtual void Shoot() override
 	
 }
 
-class AssetManager{
-	-static unique<AssetManager> mPtrAssetManager
-	-Dictionary<std::string, shared<sf::Texture>> mLoadedTextureMap
-	#AssetManager()
-	+static AssetManager& GetInstance()
-	+shared<sf::Texture> LoadTexture(const std::string& path)
-	+void CleanCycle()
+class Shooter{
+	-Actor* mOwner
+	-virtual void ShootImpl() = 0
+	#Shooter(Actor *ptrOwner)
+	+void Shoot()
+	+virtual bool CanShoot() const
+	+virtual bool IsOnCooldown() const
+	+Actor* GetOwner()
+}
+
+class BulletShooter{
+	-sf::Clock mCoolDownClock
+	-float mfTimeForCoolDown
+	-virtual void ShootImpl() override
+	+BulletShooter(Actor* ptrOwner, float pfTimeForCoolDown = 0.5)
+	+virtual bool IsOnCooldown() const override
 	
 }
 
@@ -133,5 +156,6 @@ World *--Actor
 Object <|--Actor
 Actor <|--Spaceship
 Spaceship <|--PlayerSpaceship
-
+Shooter <|--BulletShooter
+PlayerSpaceship *--BulletShooter
 @enduml

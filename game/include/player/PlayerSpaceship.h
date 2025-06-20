@@ -1,7 +1,10 @@
 #pragma once
 #include "spaceship/Spaceship.h"
+#include <framework/Core.h>
+
 
 namespace ly {
+	class BulletShooter;
 	class PlayerSpaceship : public Spaceship {
 	public:
 		PlayerSpaceship(World* ptrOwner, const std::string& texturePath="SpaceShooterRedux/PNG/playerShip1_blue.png");
@@ -13,8 +16,10 @@ namespace ly {
 		float GetSpeed() const { return mfSpeed; }
 		void NormalizeInput();
 		void ClampInputOnEdge();
+		virtual void Shoot() override;
 	private:
-		sf::Vector2f mMoveInput;
+		sf::Vector2f mDisplacementInput;
 		float mfSpeed;
+		unique<BulletShooter> mShooter;
 	};
 }

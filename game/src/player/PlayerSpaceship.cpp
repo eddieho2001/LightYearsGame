@@ -1,9 +1,14 @@
 #include "player/PlayerSpaceship.h"
+#include "weapon/BulletShooter.h"
 #include "SFML/Graphics.hpp"
 #include <framework/MathUtility.h>
 
+
 ly::PlayerSpaceship::PlayerSpaceship(World* ptrOwner, const std::string& texturePath)
-	:Spaceship{ ptrOwner , texturePath }, mMoveInput{}, mfSpeed{200.f}
+	:Spaceship{ ptrOwner , texturePath }, 
+	 mDisplacementInput{}, 
+	mfSpeed{200.f}, 
+	mShooter{new BulletShooter(this)}
 {
 }
 
@@ -19,17 +24,17 @@ void ly::PlayerSpaceship::HandlingInput()
 {
 	//If we not use if else for the oppose key detected, it allow diagonal move 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		mMoveInput.y += -1.f;
+		mDisplacementInput.y += -1.f;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		mMoveInput.y += 1.f;
+		mDisplacementInput.y += 1.f;
 	}
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		mMoveInput.x += -1.f;
+		mDisplacementInput.x += -1.f;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		mMoveInput.x += 1.f;
+		mDisplacementInput.x += 1.f;
 	}
 
 	
@@ -42,44 +47,53 @@ void ly::PlayerSpaceship::HandlingInput()
 		after normalized the player will move same speed with all direction.
 	*/
 	NormalizeInput();
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+		Shoot();
+	}
+
 }
 
 void ly::PlayerSpaceship::ConsumeInput(float deltaTime)
 {
-	SetVelocity(mMoveInput * mfSpeed);
+	SetVelocity(mDisplacementInput * mfSpeed);
 	//After the consume, reset the mMoveInput to zero
-	mMoveInput.x = 0.f;
-	mMoveInput.y = 0.f;
+	mDisplacementInput.x = 0.f;
+	mDisplacementInput.y = 0.f;
 
 }
 
 void ly::PlayerSpaceship::NormalizeInput()
 {
-	Normalize(mMoveInput);
+	Normalize(mDisplacementInput);
 }
 
 void ly::PlayerSpaceship::ClampInputOnEdge()
 {
 	sf::Vector2f curLoc = GetLocation();
 	//Check if the postion x is on 0, and player still want to move left, set mMoveInput.x = 0
-	if (curLoc.x <= epsilon && mMoveInput.x == -1) {
-		mMoveInput.x = 0.f;
+	if (curLoc.x <= epsilon && mDisplacementInput.x == -1) {
+		mDisplacementInput.x = 0.f;
 	}
 
-	if (curLoc.x > GetWindowSize().x && mMoveInput.x == 1.f) {
-		mMoveInput.x = 0.f;
+	if (curLoc.x > GetWindowSize().x && mDisplacementInput.x == 1.f) {
+		mDisplacementInput.x = 0.f;
 	}
 
-	if (curLoc.y <= epsilon && mMoveInput.y == -1) {
-		mMoveInput.y = 0.f;
+	if (curLoc.y <= epsilon && mDisplacementInput.y == -1) {
+		mDisplacementInput.y = 0.f;
 	}
 
-	if (curLoc.y > GetWindowSize().y && mMoveInput.y == 1.f) {
-		mMoveInput.y = 0.f;
+	if (curLoc.y > GetWindowSize().y && mDisplacementInput.y == 1.f) {
+		mDisplacementInput.y = 0.f;
 	}
+}
 
-
-
+void ly::PlayerSpaceship::Shoot()
+{
+	if (mShooter) {
+		mShooter->Shoot();
+	}
 }
 
 

@@ -6,6 +6,10 @@ add_executable(${LIGHTYEARS_GAME_TARGET_NAME}
 	${CMAKE_CURRENT_SOURCE_DIR}/src/spaceship/Spaceship.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/player/PlayerSpaceship.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/player/PlayerSpaceship.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/weapon/Shooter.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/Shooter.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/weapon/BulletShooter.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/BulletShooter.cpp
  )
 
 target_include_directories(${LIGHTYEARS_GAME_TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
