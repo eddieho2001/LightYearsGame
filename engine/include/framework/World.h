@@ -24,8 +24,9 @@ namespace ly {
 		virtual ~World();
 		void Render(sf::RenderWindow& win);
 
-		template<typename actorType>
-		weak<actorType> SpawnActors();
+		//Handle the Bullet, it need to change it
+		template<typename actorType, typename... Args>
+		weak<actorType> SpawnActors(Args... args);
 
 		sf::Vector2u GetWindowSize() const { return mPtrOwner->GetWinowSize(); }
 
@@ -41,9 +42,9 @@ namespace ly {
 
 	};
 
-	template<typename actorType>
-	weak<actorType> World::SpawnActors() {
-		shared<actorType> newActor{ new actorType{this} };
+	template<typename actorType, typename... Args>
+	weak<actorType> World::SpawnActors(Args... args) {
+		shared<actorType> newActor{ new actorType(this, args...) };
 		mPendingActors.push_back(newActor);
 		return newActor;
 	}

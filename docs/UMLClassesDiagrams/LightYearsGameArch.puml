@@ -48,6 +48,7 @@ class Application{
 	#virtual void Tick(float deltaTime)
 	-RenderInternal()
 	#virtual void Render()
+	+sf::Vector2u GetWinowSize() const
 }
 
 class GameApplication{
@@ -70,6 +71,7 @@ class World{
 	+void TickInternal(float deltaTime)
 	+virtual ~World()
 	+void Render(sf::RenderWindow& win)
+	+sf::Vector2u GetWindowSize() const
     -void BeginPlay()	
 	-void Tick(float deltaTime)
 }	
@@ -104,6 +106,7 @@ class Actor{
 	+void AddRotationOffset(float offset)
 	+sf::Vector2f GetForwardDirection() const
 	+sf::Vector2f GetRightDirection() const
+	+sf::Vector2u GetWindowSize() const
 }
 
 class Spaceship{
@@ -150,11 +153,26 @@ class BulletShooter{
 	
 }
 
+class Bullet{
+	-Actor* mPtrOwner
+	-float mSpeed
+	-float mDamage
+	-void Move(float deltaTime)
+	+Bullet(World* ptrWorld, Actor* ptrOwner, std::string& texturePath, float fspeed, float damage)
+	+void SetSpeed(float speed)
+	+float GetSpeed() const
+	+void SetDamage(float damage)
+	+float GetDamage() const
+	+virtual void Tick(float deltaTime) override
+	
+}
+
 Application <|--GameApplication
 Application *--World
 World *--Actor
 Object <|--Actor
 Actor <|--Spaceship
+Actor <|--Bullet
 Spaceship <|--PlayerSpaceship
 Shooter <|--BulletShooter
 PlayerSpaceship *--BulletShooter

@@ -1,5 +1,8 @@
 #include "weapon/BulletShooter.h"
+#include "weapon/Bullet.h"
 #include <framework/Core.h>
+#include "framework/World.h"
+
 
 ly::BulletShooter::BulletShooter(Actor* ptrOwner, float pfTimeForCoolDown)
 	:Shooter{ ptrOwner },
@@ -21,5 +24,11 @@ bool ly::BulletShooter::IsOnCooldown() const
 void ly::BulletShooter::ShootImpl()
 {
 	mCoolDownClock.restart();
+	weak<Bullet> newBullet = GetOwner()->GetWorld()->SpawnActors<Bullet>(GetOwner(), "SpaceShooterRedux/PNG/Lasers/laserBlue01.png");
+	
+	newBullet.lock()->SetLocation(GetOwner()->GetLocation());
+	newBullet.lock()->SetRotation(GetOwner()->GetRotataion());
+	
 	_LOG("[BulletShooter] Shooting");
+
 }
