@@ -4,8 +4,7 @@ set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_CXX_STANDARD 17)
 
 #define variables
-set(CURRENT_VERSION 0.0.5)
-set(SFML_LIB_NAME SFML)
+set(CURRENT_VERSION 0.0.6)
 set(QUILL_LIB_NAME quill)
 
 # define the project with name as LightYears
@@ -21,20 +20,13 @@ message(STATUS "project level --> PROJECT_BINARY_DIR     : ${PROJECT_BINARY_DIR}
 message(STATUS "task hository --> 0.0.1 v ---> setup game project structure 1) fetching sfml library 2) separate game loop to Application class that call by main.")
 message(STATUS "task hository --> 0.0.4 v ---> split project as 1. engine library target 2. game executable target")
 message(STATUS "task hository --> 0.0.5 v ---> using quill as logging library")
+message(STATUS "task hository --> 0.0.6 v ---> add Box2D library handle collision detected and refactor outer CMakeLists.txt by move SFML to engine's CMakeList.txt")
+
 # set all built output directory
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 #create variable for executable target name
-
-#1. In order to use external library, we using cmake fetch content feature
-include(FetchContent)
-FetchContent_Declare(
-	${SFML_LIB_NAME} 
-	GIT_REPOSITORY https://github.com/SFML/SFML.git
-	GIT_TAG 2.6.1
-	GIT_SHALLOW FALSE)
-FetchContent_MakeAvailable(${SFML_LIB_NAME})
 
 set(LIGHTYEARS_GAME_EXE_NAME LightYears_${CURRENT_VERSION})
 set(LIGHTYEARS_ENGINE_TARGET_NAME engine)
