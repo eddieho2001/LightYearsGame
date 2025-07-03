@@ -1,6 +1,7 @@
 #include "framework/application.h"
 #include "framework/World.h"
 #include "framework/AssetManager.h"
+#include "framework/PhysicsSystem.h"
 
 #include<quill/Frontend.h>
 #include<quill/LogMacros.h>
@@ -82,6 +83,8 @@ void ly::Application::TickInternal(float deltaTime) {
 	if (currentWorld) {
 		currentWorld->TickInternal(deltaTime);
 	}
+
+	PhysicsSystem::GetInstance().Step(deltaTime);
 
 	//call asset manager check and clean resource
 	if (mCleanCycleClock.getElapsedTime().asSeconds() >= mCleanCycleInterval) {

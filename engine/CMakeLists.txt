@@ -16,6 +16,9 @@ add_library(${LIGHTYEARS_ENGINE_TARGET_NAME} STATIC
 	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/AssetManager.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/MathUtility.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/MathUtility.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/framework/PhysicsSystem.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/framework/PhysicsSystem.cpp
+
 
   "src/framework/MathUtility.cpp")
 
@@ -43,7 +46,9 @@ target_link_libraries(${LIGHTYEARS_ENGINE_TARGET_NAME} PUBLIC sfml-window)
 target_link_libraries(${LIGHTYEARS_ENGINE_TARGET_NAME} PUBLIC quill::quill)
 
 #include the Box2D library by CMake's Fetch Content command
+
 set(BOX2D_LIB_NAME Box2D)
+set(DBOX2D_BUILD_UNIT_TESTS OFF)
 FetchContent_Declare(
 	${BOX2D_LIB_NAME} 
 	GIT_REPOSITORY https://github.com/erincatto/box2d.git
