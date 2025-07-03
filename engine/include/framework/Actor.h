@@ -28,12 +28,13 @@ namespace ly {
 		float GetRotataion() const;
 		void AddLocationOffset(const sf::Vector2f& offset);
 		void AddRotationOffset(float offset);
-		sf::Vector2f GetLeftDirection() const { return Rotation2Vecor(GetRotataion() - 90.f); }
-
-		sf::Vector2f GetForwardDirection() const;
+		
 		sf::Vector2f GetRightDirection() const;
-
+		sf::Vector2f GetLeftDirection() const;
+		sf::Vector2f GetForwardDirection() const;
 		sf::Vector2u GetWindowSize() const { return mPtrOwner->GetWindowSize(); }
+		bool IsOutOfWindowBound() const;
+		sf::FloatRect GetGlobalBounds() const;
 
 		World* GetWorld() const { return mPtrOwner; }
 

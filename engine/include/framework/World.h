@@ -30,6 +30,9 @@ namespace ly {
 
 		sf::Vector2u GetWindowSize() const { return mPtrOwner->GetWinowSize(); }
 
+		//Add CleanCycle for clean usage actor type under the world
+		void CleanCycle();
+
 	private:
 		void BeginPlay();
 		void Tick(float deltaTime);

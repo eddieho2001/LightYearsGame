@@ -44,7 +44,7 @@ void ly::Actor::Tick(float deltaTime)
 
 ly::Actor::~Actor()
 {
-	_LOG("Actor destoryed");
+	//_LOG("Actor destoryed");
 	LOG_INFO(mlogger, "Actor destoryed");
 }
 
@@ -118,6 +118,11 @@ sf::Vector2f ly::Actor::GetForwardDirection() const
 	return Rotation2Vecor(GetRotataion());
 }
 
+sf::Vector2f ly::Actor::GetLeftDirection() const
+{
+	return Rotation2Vecor(GetRotataion() - 90.f);
+}
+
 sf::Vector2f ly::Actor::GetRightDirection() const
 {
 	return Rotation2Vecor(GetRotataion()+90.f);
@@ -127,4 +132,39 @@ void ly::Actor::CenterPivot()
 {
 	sf::FloatRect bound = mSprite.getGlobalBounds();
 	mSprite.setOrigin(bound.width / 2, bound.height / 2);
+}
+
+bool ly::Actor::IsOutOfWindowBound() const
+{
+	//Find the world size first
+	float gameWinWidth = GetWorld()->GetWindowSize().x;
+	float gameWinHeight = GetWorld()->GetWindowSize().y;
+	//Find the actor it size
+	float actorWidth = GetGlobalBounds().width;
+	float actorHeight = GetGlobalBounds().height;
+	sf::Vector2f actorPos = GetLocation();
+	
+	if (actorPos.x < -actorWidth) {
+		return true;
+	}
+
+	if (actorPos.x > (gameWinWidth + actorWidth)) {
+		return true;
+	}
+
+	if (actorPos.y < -actorHeight) {
+		return true;
+	}
+
+	if (actorPos.y > (gameWinHeight + actorHeight)) {
+		return true;
+	}
+
+	return false;
+}
+
+
+sf::FloatRect ly::Actor::GetGlobalBounds() const
+{
+	return mSprite.getGlobalBounds();
 }

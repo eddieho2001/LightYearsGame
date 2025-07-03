@@ -88,6 +88,10 @@ void ly::Application::TickInternal(float deltaTime) {
 		//Reset the clock and ask asset manager to clean
 		mCleanCycleClock.restart();
 		AssetManager::GetInstance().CleanCycle();
+		//Add for manage actor type and it child clean up logic
+		if (currentWorld) {
+			currentWorld->CleanCycle();//call the world to clean up itself so that all actor inside the world will clean up.
+		}
 	}
 }
 
