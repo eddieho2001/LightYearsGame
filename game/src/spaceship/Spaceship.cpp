@@ -24,4 +24,10 @@ void ly::Spaceship::Shoot()
 
 }
 
+void ly::Spaceship::BeginPlay()
+{
+	Actor::BeginPlay();
+	SetEnablePhysics(true);
+}
+
 

@@ -1,14 +1,19 @@
-#include "framework/Actor.h"
 #include<quill/Frontend.h>
 #include<quill/LogMacros.h>
 #include<quill/sinks/ConsoleSink.h>
+#include<box2d/b2_body.h>
+
+#include "framework/Actor.h"
 #include "framework/Core.h"
 #include "framework/AssetManager.h"
 #include "framework/MathUtility.h"
+#include "framework/PhysicsSystem.h"
 
 ly::Actor::Actor(World* ptrOwner, const std::string& texturePath)
 	:mPtrOwner{ ptrOwner },
 	mIsBeginPlay{false},
+	mPhysicsBody{nullptr},
+	mPhysicsEnabled{false},
 	mSprite{},
 	mTexture{}
 {
@@ -167,4 +172,39 @@ bool ly::Actor::IsOutOfWindowBound() const
 sf::FloatRect ly::Actor::GetGlobalBounds() const
 {
 	return mSprite.getGlobalBounds();
+}
+
+void ly::Actor::SetEnablePhysics(bool enable)
+{
+	mPhysicsEnabled = enable;
+	if (mPhysicsEnabled) {
+		InitializedPhysics();
+	}
+	else {
+		UnInitializedPhysics();
+	}
+}
+
+void ly::Actor::InitializedPhysics()
+{
+	if (!mPhysicsBody) {
+		mPhysicsBody = PhysicsSystem::GetInstance().AddListener(this);
+	}
+}
+
+void ly::Actor::UnInitializedPhysics()
+{
+	if (mPhysicsBody) {
+		PhysicsSystem::GetInstance().RemoveListener(mPhysicsBody);
+	}
+}
+
+void ly::Actor::UpdatePhysicsBodyTransform()
+{
+	if (mPhysicsBody) {
+		float physicsScale = PhysicsSystem::GetInstance().GetPhysicsScale();
+		b2Vec2 pos{ physicsScale * GetLocation().x, physicsScale * GetLocation().y };
+		float rotation = Degree2Radian(GetRotataion());
+		mPhysicsBody->SetTransform(pos, rotation);
+	}
 }

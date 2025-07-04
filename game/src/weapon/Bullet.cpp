@@ -22,6 +22,12 @@ void ly::Bullet::Tick(float deltaTime)
 
 }
 
+void ly::Bullet::BeginPlay()
+{
+	Actor::BeginPlay();
+	SetEnablePhysics(true);
+}
+
 void ly::Bullet::Move(float deltaTime)
 {
 	SetRotation(0.f);

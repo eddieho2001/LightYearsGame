@@ -10,6 +10,7 @@ namespace ly {
 		void Step(float deltaTime);
 		b2Body* AddListener(Actor* ptrListener);
 		float GetPhysicsScale() const { return mPhysicsScale; };
+		void RemoveListener(b2Body* body);
 	protected:
 		PhysicsSystem();
 	private:

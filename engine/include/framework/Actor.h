@@ -6,6 +6,7 @@
 #include "framework/World.h"
 #include "framework/MathUtility.h"
 
+class b2Body;
 namespace ly {
 	/*
 	 * The Actor class's owner is the World class.
@@ -38,8 +39,13 @@ namespace ly {
 
 		World* GetWorld() const { return mPtrOwner; }
 
+		void SetEnablePhysics(bool enable);
+
 	private:
 		void CenterPivot();
+		void InitializedPhysics();
+		void UnInitializedPhysics();
+		void UpdatePhysicsBodyTransform();
 	private:
 		World* mPtrOwner;
 		bool mIsBeginPlay;
@@ -47,5 +53,7 @@ namespace ly {
 		//Start to add visual component here 
 		sf::Sprite mSprite;
 		shared<sf::Texture> mTexture;
+		b2Body* mPhysicsBody;
+		bool mPhysicsEnabled;
 	};
 }

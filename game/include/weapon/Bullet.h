@@ -18,6 +18,8 @@ namespace ly {
 		void SetDamage(float damage) { mDamage = damage; }
 		float GetDamage() const { return mDamage; }
 		virtual void Tick(float deltaTime) override;
+		//After add physics system, we can implement the BeginPlay function
+		virtual void BeginPlay() override;
 	private:
 		void Move(float deltaTime);
 	private:
