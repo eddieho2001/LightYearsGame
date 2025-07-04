@@ -1,5 +1,6 @@
 #pragma once
 #include <framework/Actor.h>
+#include "gameplay/HealthComponent.h"
 
 namespace ly {
 	class Spaceship : public Actor {
@@ -15,6 +16,7 @@ namespace ly {
 
 	private:
 		sf::Vector2f mVelocity;
+		HealthComponent mHealthComp;
 	};
 
 

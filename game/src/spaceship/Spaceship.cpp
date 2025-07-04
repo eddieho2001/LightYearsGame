@@ -3,7 +3,8 @@
 
 ly::Spaceship::Spaceship(World* ptrOwner, const std::string& texturePath)
 	:Actor{ ptrOwner , texturePath },
-	mVelocity{}
+	mVelocity{}, 
+	mHealthComp{100.f, 100.f}
 {
 
 }
