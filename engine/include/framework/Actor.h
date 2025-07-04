@@ -40,7 +40,9 @@ namespace ly {
 		World* GetWorld() const { return mPtrOwner; }
 
 		void SetEnablePhysics(bool enable);
-
+		virtual void OnActorBeginOverlap(Actor* other);
+		virtual void OnActorEndOverlap(Actor* other);
+		virtual void Destory() override;
 	private:
 		void CenterPivot();
 		void InitializedPhysics();

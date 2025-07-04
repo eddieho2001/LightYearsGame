@@ -5,13 +5,11 @@ namespace ly {
 	class Object {
 	public:
 		Object();
-		bool IsPendingDestory() const {
-			return mIsPendingDestory;
-		}
+		bool IsPendingDestory() const { return mIsPendingDestory; }
 
 		virtual ~Object();
 
-		void Destory();
+		virtual void Destory();
 	private:
 		bool mIsPendingDestory;
 		quill::Logger* mlogger;

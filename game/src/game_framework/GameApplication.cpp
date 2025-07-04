@@ -16,21 +16,24 @@ ly::GameApplication::GameApplication()
 {
 	AssetManager::GetInstance().SetAssetRootDir(GetResourceDir());
 	weak<World> newWorld = LoadWorld<World>();
-	newWorld.lock()->SpawnActors<Actor>();
+	//newWorld.lock()->SpawnActors<Actor>();
 	mTestPlayeSpaceship = newWorld.lock()->SpawnActors<PlayerSpaceship>();
 	mTestPlayeSpaceship.lock()->SetLocation(sf::Vector2f(600 / 2, 980 / 2));
 	//mTestPlayeSpaceship.lock()->SetRotation(180.f);
 	//mTestPlayeSpaceship.lock()->SetVelocity(sf::Vector2f{ 0.f, -200.f });
+	weak<Spaceship> testSpacesship = newWorld.lock()->SpawnActors<Spaceship>();
+	testSpacesship.lock()->SetTexture("SpaceShooterRedux/PNG/playerShip1_blue.png");
+	testSpacesship.lock()->SetLocation(sf::Vector2f{ 100, 100 });
 	counter = 0;
 }
 
 void ly::GameApplication::Tick(float deltaTime)
 {
-	/*
+	
 	counter += deltaTime;
-	if (counter > 2.f) {//After 2s, the actor to be deleted
+	if (counter > 10.f) {//After 2s, the actor to be deleted
 		if (!mTestPlayeSpaceship.expired()) {
-			mDeleteActor.lock()->Destory();
+			mTestPlayeSpaceship.lock()->Destory();
 		}
-	}*/
+	}
 }

@@ -91,6 +91,7 @@ void ly::Actor::Render(sf::RenderWindow& win)
 void ly::Actor::SetLocation(const sf::Vector2f& newLocaltion)
 {
 	mSprite.setPosition(newLocaltion);
+	UpdatePhysicsBodyTransform();
 }
 
 sf::Vector2f ly::Actor::GetLocation() const
@@ -101,6 +102,7 @@ sf::Vector2f ly::Actor::GetLocation() const
 void ly::Actor::SetRotation(float newRotation)
 {
 	mSprite.setRotation(newRotation);
+	UpdatePhysicsBodyTransform();
 }
 
 float ly::Actor::GetRotataion() const
@@ -185,6 +187,22 @@ void ly::Actor::SetEnablePhysics(bool enable)
 	}
 }
 
+void ly::Actor::OnActorBeginOverlap(Actor* other)
+{
+	LOG_INFO(mlogger, "Acotr Beging Overlap");
+}
+
+void ly::Actor::OnActorEndOverlap(Actor* other)
+{
+	LOG_INFO(mlogger, "Acotr End Overlap");
+}
+
+void ly::Actor::Destory()
+{
+	UnInitializedPhysics();
+	Object::Destory();
+}
+
 void ly::Actor::InitializedPhysics()
 {
 	if (!mPhysicsBody) {
@@ -196,6 +214,7 @@ void ly::Actor::UnInitializedPhysics()
 {
 	if (mPhysicsBody) {
 		PhysicsSystem::GetInstance().RemoveListener(mPhysicsBody);
+		mPhysicsBody = nullptr;
 	}
 }
 
