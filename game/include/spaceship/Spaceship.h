@@ -1,5 +1,6 @@
 #pragma once
 #include <framework/Actor.h>
+#include<quill/Logger.h>
 #include "gameplay/HealthComponent.h"
 
 namespace ly {
@@ -13,8 +14,10 @@ namespace ly {
 
 		//After add physics system, we can implement the BeginPlay function
 		virtual void BeginPlay() override;
-
 	private:
+		void OnHealthChanged(float amt, float health, float maxHealth);
+	private:
+		quill::Logger* mlogger;
 		sf::Vector2f mVelocity;
 		HealthComponent mHealthComp;
 	};
