@@ -14,8 +14,11 @@ namespace ly {
 
 		//After add physics system, we can implement the BeginPlay function
 		virtual void BeginPlay() override;
+		virtual void ApplyDamage(float amt) override;
 	private:
-		void OnHealthChanged(float amt, float health, float maxHealth);
+		virtual void OnHealthChanged(float amt, float health, float maxHealth);
+		virtual void OnTakenDamage(float amt, float health, float maxHealth);
+		virtual void OnBlow();
 	private:
 		quill::Logger* mlogger;
 		sf::Vector2f mVelocity;

@@ -20,6 +20,8 @@ namespace ly {
 		virtual void Tick(float deltaTime) override;
 		//After add physics system, we can implement the BeginPlay function
 		virtual void BeginPlay() override;
+		virtual void OnActorBeginOverlap(Actor* other);
+		virtual void OnActorEndOverlap(Actor* other);
 	private:
 		void Move(float deltaTime);
 	private:

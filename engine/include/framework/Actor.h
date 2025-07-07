@@ -43,6 +43,11 @@ namespace ly {
 		virtual void OnActorBeginOverlap(Actor* other);
 		virtual void OnActorEndOverlap(Actor* other);
 		virtual void Destory() override;
+		static uint8 GetNeturalTeamId() { return neturalTeamId; }
+		bool IsOtherHostile(Actor* other) const;
+		void SetTeamId(uint8 teamId) { mTeamId = teamId; }
+		uint8 GetTeamId() const { return mTeamId; }
+		virtual void ApplyDamage(float amt);
 	private:
 		void CenterPivot();
 		void InitializedPhysics();
@@ -57,5 +62,6 @@ namespace ly {
 		shared<sf::Texture> mTexture;
 		b2Body* mPhysicsBody;
 		bool mPhysicsEnabled;
+		uint8 mTeamId;
 	};
 }

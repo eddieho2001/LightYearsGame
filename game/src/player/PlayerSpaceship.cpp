@@ -10,6 +10,7 @@ ly::PlayerSpaceship::PlayerSpaceship(World* ptrOwner, const std::string& texture
 	mfSpeed{200.f}, 
 	mShooter{ new BulletShooter{this, 0.1f} }
 {
+	SetTeamId(1);
 }
 
 //The Tick function is same as the update functionality

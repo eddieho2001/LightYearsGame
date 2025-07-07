@@ -35,12 +35,28 @@ void ly::Spaceship::BeginPlay()
 	Actor::BeginPlay();
 	SetEnablePhysics(true);
 	mHealthComp.onHealthChanged.BindAction(GetWeakRef(), &Spaceship::OnHealthChanged);
-	mHealthComp.onHealthChanged.Broadcast(11.f, 89.f, 100.f);
+	mHealthComp.onTakenDamage.BindAction(GetWeakRef(), &Spaceship::OnTakenDamage);
+	mHealthComp.onHealthEmpty.BindAction(GetWeakRef(), &Spaceship::OnBlow);
+	//mHealthComp.onHealthChanged.Broadcast(11.f, 89.f, 100.f);
 }
 
 void ly::Spaceship::OnHealthChanged(float amt, float health, float maxHealth)
 {
 	LOG_INFO(mlogger, "Health changed by {} and is now: {}/{}", amt, health, maxHealth);
+}
+
+void ly::Spaceship::OnTakenDamage(float amt, float health, float maxHealth)
+{
+}
+
+void ly::Spaceship::OnBlow()
+{
+	Destory();
+}
+
+void ly::Spaceship::ApplyDamage(float amt)
+{
+	mHealthComp.ChangeHealth(-amt);
 }
 
 

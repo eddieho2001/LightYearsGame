@@ -89,6 +89,11 @@ Version 0.0.5: add quill as logging library
 						logger->set_log_level(quill::LogLevel::TraceL3);
 
 						LOG_INFO(logger, "Start Logging in Entry");
+Version 0.0.7 After design the system delegate system that is similar to signaling system, but much simple, if possible we can using Observer pattern to enhcanced it.
+              How to solve the problem that when bullet hit something, it know and reposible to hit action.
+              that mean we should have a emeny concept and for a very simple idea is that we can differential us and a group of other for which we identify as enemy.
+              so in this version using group with same team id is the key idea!
+ 			  
 			
 				
 	

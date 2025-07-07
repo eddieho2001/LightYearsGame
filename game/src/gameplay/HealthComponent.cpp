@@ -34,22 +34,28 @@ void ly::HealthComponent::ChangeHealth(float amount)
 			HealthEmpty();
 		}
 	}
+	/*
 	else {
 		HealthRegen(amount);
-	}
+	}*/
+
+	onHealthChanged.Broadcast(amount, mHealth, mMaxHealth);
 }
 
 void ly::HealthComponent::TakeDamage(float amt)
 {
-	LOG_INFO(mlogger, "Took Damage: {}, current health is {}/{}", amt, mHealth, mMaxHealth);
+	onTakenDamage.Broadcast(amt, mHealth, mMaxHealth);
+	//LOG_INFO(mlogger, "Took Damage: {}, current health is {}/{}", amt, mHealth, mMaxHealth);
 }
 
 void ly::HealthComponent::HealthEmpty()
 {
-	LOG_INFO(mlogger, "Dead: current health is {}/{}", mHealth, mMaxHealth);
+	onHealthEmpty.Broadcast();
+	//LOG_INFO(mlogger, "Dead: current health is {}/{}", mHealth, mMaxHealth);
 }
 
+/*
 void ly::HealthComponent::HealthRegen(float amount)
 {
 	LOG_INFO(mlogger, "Health Regen: {}, current health is {}/{}", amount, mHealth, mMaxHealth);
-}
+}*/

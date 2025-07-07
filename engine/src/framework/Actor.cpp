@@ -15,7 +15,8 @@ ly::Actor::Actor(World* ptrOwner, const std::string& texturePath)
 	mPhysicsBody{nullptr},
 	mPhysicsEnabled{false},
 	mSprite{},
-	mTexture{}
+	mTexture{},
+	mTeamId{ GetNeturalTeamId()}
 {
 	mlogger = quill::Frontend::create_or_get_logger("Actor", quill::Frontend::create_or_get_sink<quill::ConsoleSink>("sink_id_1"));
 	mlogger->set_immediate_flush(true);
@@ -189,12 +190,12 @@ void ly::Actor::SetEnablePhysics(bool enable)
 
 void ly::Actor::OnActorBeginOverlap(Actor* other)
 {
-	LOG_INFO(mlogger, "Acotr Beging Overlap");
+	//LOG_INFO(mlogger, "Acotr Beging Overlap");
 }
 
 void ly::Actor::OnActorEndOverlap(Actor* other)
 {
-	LOG_INFO(mlogger, "Acotr End Overlap");
+	//LOG_INFO(mlogger, "Acotr End Overlap");
 }
 
 void ly::Actor::Destory()
@@ -226,4 +227,17 @@ void ly::Actor::UpdatePhysicsBodyTransform()
 		float rotation = Degree2Radian(GetRotataion());
 		mPhysicsBody->SetTransform(pos, rotation);
 	}
+}
+
+bool ly::Actor::IsOtherHostile(Actor* other) const
+{
+	if (GetTeamId() == GetNeturalTeamId() || other->GetTeamId() == GetNeturalTeamId()) {
+		return false;
+	}
+	return GetTeamId() != other->GetTeamId();
+}
+
+void ly::Actor::ApplyDamage(float amt)
+{
+
 }

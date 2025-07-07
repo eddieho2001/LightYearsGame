@@ -24,6 +24,7 @@ ly::GameApplication::GameApplication()
 	weak<Spaceship> testSpacesship = newWorld.lock()->SpawnActors<Spaceship>();
 	testSpacesship.lock()->SetTexture("SpaceShooterRedux/PNG/playerShip1_blue.png");
 	testSpacesship.lock()->SetLocation(sf::Vector2f{ 100, 100 });
+	testSpacesship.lock()->SetTeamId(2);
 	counter = 0;
 }
 
@@ -31,9 +32,11 @@ void ly::GameApplication::Tick(float deltaTime)
 {
 	
 	counter += deltaTime;
+	/*
 	if (counter > 10.f) {//After 2s, the actor to be deleted
 		if (!mTestPlayeSpaceship.expired()) {
 			mTestPlayeSpaceship.lock()->Destory();
 		}
 	}
+	*/
 }
