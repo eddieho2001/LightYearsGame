@@ -9,9 +9,6 @@ class Core{
 	+template<typename keyType, typename valType, typename compType = std::less<keyType>> using Map = std::map<keyType, valType, compType>
 	+template<typename keyType, typename valType, typename hasher = std::hash<keyType>> using Dictionary = std::unordered_map<keyType, valType, hasher>
 	+_LOG(M, ...) printf(M "\n", ##__VA_ARGS__)	
-	+template<typename T> float Calculate2DVectorLength(const sf::Vector2<T>& vec)
-	+template<typename T> sf::Vector2<T>& Scale2DVector(sf::Vector2<T>& vec, float amount)
-	+template<typename T> sf::Vector2<T>& Normalize(sf::Vector2<T>& vec)
 }
 
 class EntryPoint{
@@ -22,15 +19,20 @@ class MathUtility{
 	+sf::Vector2f Rotation2Vecor(float rotation)
 	+float Degree2Radian(float degree)
 	+float Radian2Degree(float rad)
+	+template<typename T> float Calculate2DVectorLength(const sf::Vector2<T>& vec)
+	+template<typename T> sf::Vector2<T>& Scale2DVector(sf::Vector2<T>& vec, float amount)
+	+template<typename T> sf::Vector2<T>& Normalize(sf::Vector2<T>& vec)
 }
 
 class AssetManager{
 	-static unique<AssetManager> mPtrAssetManager
 	-Dictionary<std::string, shared<sf::Texture>> mLoadedTextureMap
+	-std::string mRootDir
 	#AssetManager()
 	+static AssetManager& GetInstance()
 	+shared<sf::Texture> LoadTexture(const std::string& path)
 	+void CleanCycle()
+	+void SetAssetRootDir(const std::string& p_strDir)
 }
 
 class PhysicsSystem{
@@ -39,27 +41,46 @@ class PhysicsSystem{
 	-float mPhysicsScale
 	-int mVelocityIteration
 	-int mPositionIteration
+	-PhysicsContractListener mContractListener
+	-Set<b2Body*> mPendingRemoveListeners
+	-void ProcessPendingRemoveListeners()
 	#PhysicsSystem()
 	+static PhysicsSystem& GetInstance()
 	+void Step(float deltaTime)
 	+b2Body* AddListener(Actor* ptrListener)
 	+float GetPhysicsScale() const
+	+void RemoveListener(b2Body* body)
+	+static void CleanUp()
+}
+
+class PhysicsContractListener{
+	+PhysicsContractListener()
+	+virtual void BeginContact(b2Contact* contact) override
+	+virtual void EndContact(b2Contact* contact) override
+}
+
+class Delegate{
+	-List<std::function<bool(Args...)>> mCallbacks
+	+template<typename ClassName> void BindAction(weak<Object> obj, void(ClassName::* callback)(Args...))
+	+void Broadcast(Args... args)
+	
 }
 
 class Application{
 	-sf::RenderWindow mWindow
-	-sf::Sprite mPlayer;
-	-sf::Texture mTexture;
 	-float mTargetFrameRate
 	-sf::Clock mTickClock
+	-sf::Clock mCleanCycleClock
+	-float mCleanCycleInterval;
 	-quill::Logger* mlogger
-	+Application()
-	+Run()
-	+weak<worldType> RoadWorld()
+	-shared<World> currentWorld
 	-TickInternal(float deltaTime)
-	#virtual void Tick(float deltaTime)
+	-virtual void Tick(float deltaTime)
 	-RenderInternal()
-	#virtual void Render()
+	-virtual void Render()
+	+Application(unsigned int winWidth, unsigned int winHeight, const std::string& title, sf::Uint32 style)
+	+void Run()
+	+template<typename worldType> weak<worldType> LoadWorld()
 	+sf::Vector2u GetWinowSize() const
 }
 
@@ -83,7 +104,9 @@ class World{
 	+void TickInternal(float deltaTime)
 	+virtual ~World()
 	+void Render(sf::RenderWindow& win)
+	+weak<actorType> SpawnActors(Args... args)
 	+sf::Vector2u GetWindowSize() const
+	+void CleanCycle()
     -void BeginPlay()	
 	-void Tick(float deltaTime)
 }	
@@ -94,6 +117,9 @@ class Object{
 	+virtual ~Object()
 	+void Destory()
 	+bool IsPendingDestory() const
+	+weak<Object> GetWeakRef()
+	+weak<const Object> GetWeakRef() const
+	+Delegate<Object*> onDestory
 }
 
 class Actor{
@@ -101,8 +127,13 @@ class Actor{
 	-bool mIsBeginPlay
 	-sf::Sprite mSprite
 	-sf::Texture mTexture
+	-b2Body* mPhysicsBody
+	-bool mPhysicsEnabled
 	-void CenterPivot()
-	+Actor(World* ptrOwner)
+	-void InitializedPhysics()
+	-void UnInitializedPhysics()
+	-void UpdatePhysicsBodyTransform()
+	+Actor(World* ptrOwner, const std::string& texturePath="")
 	+void BeginPlayInternal()
 	+virtual void BeginPlay()
 	+virtual void Tick(float deltaTime)
@@ -118,7 +149,15 @@ class Actor{
 	+void AddRotationOffset(float offset)
 	+sf::Vector2f GetForwardDirection() const
 	+sf::Vector2f GetRightDirection() const
+	+sf::Vector2f GetLeftDirection() const
 	+sf::Vector2u GetWindowSize() const
+	+bool IsOutOfWindowBound() const
+	+sf::FloatRect GetGlobalBounds() const
+	+World* GetWorld() const
+	+void SetEnablePhysics(bool enable)
+	+virtual void OnActorBeginOverlap(Actor* other)
+	+virtual void OnActorEndOverlap(Actor* other)
+	+virtual void Destory() override
 }
 
 class Spaceship{
@@ -140,6 +179,7 @@ class PlayerSpaceship{
 	-float GetSpeed() const
 	-void NormalizeInput()
 	-void ClampInputOnEdge()
+	-virtual void Shoot() override
 	+PlayerSpaceship(World* ptrOwner, const std::string& texturePath="SpaceShooterRedux/PNG/playerShip1_blue.png")
 	+virtual void Tick(float deltaTime) override
 	+virtual void Shoot() override
@@ -176,16 +216,32 @@ class Bullet{
 	+void SetDamage(float damage)
 	+float GetDamage() const
 	+virtual void Tick(float deltaTime) override
+	+virtual void BeginPlay() override
 	
+}
+
+class HealthComponent{
+	-float mHealth
+	-float mMaxHealth
+	-void TakeDamage(float amt)
+	-void HealthEmpty()
+	-void HealthRegen(float amount)
+	+HealthComponent(float health, float maxHealth)
+	+void ChangeHealth(float amount)
+	+float GetHealth() const
+	+float GetMaxHealth() const
+	+Delegate<float, float, float> onHealthChanged
 }
 
 Application <|--GameApplication
 Application *--World
 World *--Actor
+enable_shared_from_this <|--Object
 Object <|--Actor
 Actor <|--Spaceship
 Actor <|--Bullet
 Spaceship <|--PlayerSpaceship
 Shooter <|--BulletShooter
 PlayerSpaceship *--BulletShooter
+b2ContactListener <|--PhysicsContractListener
 @enduml
