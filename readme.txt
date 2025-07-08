@@ -93,7 +93,8 @@ Version 0.0.7 After design the system delegate system that is similar to signali
               How to solve the problem that when bullet hit something, it know and reposible to hit action.
               that mean we should have a emeny concept and for a very simple idea is that we can differential us and a group of other for which we identify as enemy.
               so in this version using group with same team id is the key idea!
- 			  
+
+Version 0.0.8 Add VFX effect when enemy have been hit by bullet that empty health		  
 			
 				
 	

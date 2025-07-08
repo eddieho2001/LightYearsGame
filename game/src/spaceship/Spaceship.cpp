@@ -5,6 +5,7 @@
 #include "spaceship/Spaceship.h"
 #include "framework/World.h"
 #include "framework/MathUtility.h"
+#include "VFX/Explosion.h"
 
 ly::Spaceship::Spaceship(World* ptrOwner, const std::string& texturePath)
 	:Actor{ ptrOwner , texturePath },
@@ -56,7 +57,10 @@ void ly::Spaceship::OnTakenDamage(float amt, float health, float maxHealth)
 
 void ly::Spaceship::OnBlow()
 {
+	Explosion* exp = new Explosion();
+	exp->SpawnExplosion(GetWorld(), GetLocation());
 	Destory();
+	delete exp;
 }
 
 void ly::Spaceship::Blink()

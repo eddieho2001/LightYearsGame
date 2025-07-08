@@ -4,7 +4,7 @@ set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_CXX_STANDARD 17)
 
 #define variables
-set(CURRENT_VERSION 0.0.7)
+set(CURRENT_VERSION 0.0.8)
 set(QUILL_LIB_NAME quill)
 
 # define the project with name as LightYears
@@ -22,6 +22,7 @@ message(STATUS "task hository --> 0.0.4 v ---> split project as 1. engine librar
 message(STATUS "task hository --> 0.0.5 v ---> using quill as logging library")
 message(STATUS "task hository --> 0.0.6 v ---> add Box2D library handle collision detected and refactor outer CMakeLists.txt by move SFML to engine's CMakeList.txt")
 message(STATUS "task hository --> 0.0.7 v ---> implement Delegate Class, using enable_shared_from_this in stdlib as the top parent")
+message(STATUS "task hository --> 0.0.8 v ---> add and implement VFX effect when enemy have been hit by bullet that empty health")	
 
 # set all built output directory
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

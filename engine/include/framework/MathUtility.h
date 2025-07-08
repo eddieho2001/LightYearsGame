@@ -39,4 +39,8 @@ namespace ly {
 
 	sf::Vector2f LerpVector(const sf::Vector2f& a, const sf::Vector2f& b, float alpha);
 
+	float RandomRange(float minValue, float maxValue);
+
+	sf::Vector2f GetRandomUnitVector();
+
 }

@@ -14,6 +14,8 @@ add_executable(${LIGHTYEARS_GAME_TARGET_NAME}
 	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/Bullet.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/gameplay/HealthComponent.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/gameplay/HealthComponent.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/VFX/Explosion.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/VFX/Explosion.cpp
  )
 
 target_include_directories(${LIGHTYEARS_GAME_TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
