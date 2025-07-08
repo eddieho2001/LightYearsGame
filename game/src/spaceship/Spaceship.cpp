@@ -4,11 +4,15 @@
 
 #include "spaceship/Spaceship.h"
 #include "framework/World.h"
+#include "framework/MathUtility.h"
 
 ly::Spaceship::Spaceship(World* ptrOwner, const std::string& texturePath)
 	:Actor{ ptrOwner , texturePath },
 	mVelocity{}, 
-	mHealthComp{100.f, 100.f}
+	mHealthComp{100.f, 100.f},
+	mBlinkTime{ 0.f },
+	mBlinkDuration{.2f},
+	mBlinkColorOffset{255,0,0, 255}
 {
 	mlogger = quill::Frontend::create_or_get_logger("Spaceship", quill::Frontend::create_or_get_sink<quill::ConsoleSink>("sink_id_1"));
 	mlogger->set_immediate_flush(true);
@@ -18,6 +22,7 @@ void ly::Spaceship::Tick(float deltaTime)
 {
 	Actor::Tick(deltaTime);
 	AddLocationOffset(GetVelocity() * deltaTime);
+	UpdateBlink(deltaTime);
 }
 
 void ly::Spaceship::SetVelocity(sf::Vector2f& newVelocity)
@@ -54,9 +59,26 @@ void ly::Spaceship::OnBlow()
 	Destory();
 }
 
+void ly::Spaceship::Blink()
+{
+	if (mBlinkTime == 0) {
+		mBlinkTime = mBlinkDuration;
+	}
+}
+
+void ly::Spaceship::UpdateBlink(float deltaTime)
+{
+	if (mBlinkTime > epsilon) {
+		mBlinkTime -= deltaTime;
+		mBlinkTime = mBlinkTime > epsilon ? mBlinkTime : 0.f;
+		GetSprite().setColor(LerpColor(sf::Color::White, mBlinkColorOffset, mBlinkTime));
+	}
+}
+
 void ly::Spaceship::ApplyDamage(float amt)
 {
 	mHealthComp.ChangeHealth(-amt);
+	Blink();
 }
 
 

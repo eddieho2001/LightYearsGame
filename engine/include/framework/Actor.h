@@ -37,7 +37,8 @@ namespace ly {
 		bool IsOutOfWindowBound() const;
 		sf::FloatRect GetGlobalBounds() const;
 
-		World* GetWorld() const { return mPtrOwner; }
+		World* GetWorld() { return mPtrOwner; }
+		const World* GetWorld() const { return mPtrOwner; }
 
 		void SetEnablePhysics(bool enable);
 		virtual void OnActorBeginOverlap(Actor* other);
@@ -48,6 +49,9 @@ namespace ly {
 		void SetTeamId(uint8 teamId) { mTeamId = teamId; }
 		uint8 GetTeamId() const { return mTeamId; }
 		virtual void ApplyDamage(float amt);
+
+		sf::Sprite& GetSprite() { return mSprite; }
+		const sf::Sprite& GetSprite() const { return mSprite; }
 	private:
 		void CenterPivot();
 		void InitializedPhysics();
