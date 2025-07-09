@@ -16,6 +16,11 @@ add_executable(${LIGHTYEARS_GAME_TARGET_NAME}
 	${CMAKE_CURRENT_SOURCE_DIR}/src/gameplay/HealthComponent.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/VFX/Explosion.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/VFX/Explosion.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/Enemy/EnemySpaceship.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/Enemy/EnemySpaceship.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/Enemy/Vanguard.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/Enemy/Vanguard.cpp
+
  )
 
 target_include_directories(${LIGHTYEARS_GAME_TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

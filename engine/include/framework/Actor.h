@@ -34,7 +34,7 @@ namespace ly {
 		sf::Vector2f GetLeftDirection() const;
 		sf::Vector2f GetForwardDirection() const;
 		sf::Vector2u GetWindowSize() const { return mPtrOwner->GetWindowSize(); }
-		bool IsOutOfWindowBound() const;
+		bool IsOutOfWindowBound(float allowance=10.f) const;
 		sf::FloatRect GetGlobalBounds() const;
 
 		World* GetWorld() { return mPtrOwner; }

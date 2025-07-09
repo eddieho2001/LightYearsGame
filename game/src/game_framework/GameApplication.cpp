@@ -5,7 +5,7 @@
 #include "game_framework/GameApplication.h"
 #include "player/PlayerSpaceship.h"
 #include "config.h"
-
+#include "Enemy/Vanguard.h"
 
 ly::Application* GetApplication() {
 	return new ly::GameApplication();
@@ -21,10 +21,9 @@ ly::GameApplication::GameApplication()
 	mTestPlayeSpaceship.lock()->SetLocation(sf::Vector2f(600 / 2, 980 / 2));
 	//mTestPlayeSpaceship.lock()->SetRotation(180.f);
 	//mTestPlayeSpaceship.lock()->SetVelocity(sf::Vector2f{ 0.f, -200.f });
-	weak<Spaceship> testSpacesship = newWorld.lock()->SpawnActors<Spaceship>();
-	testSpacesship.lock()->SetTexture("SpaceShooterRedux/PNG/playerShip1_blue.png");
-	testSpacesship.lock()->SetLocation(sf::Vector2f{ 100, 100 });
-	testSpacesship.lock()->SetTeamId(2);
+	weak<Vanguard> testSpacesship = newWorld.lock()->SpawnActors<Vanguard>();
+	testSpacesship.lock()->SetLocation(sf::Vector2f{ 100.f, 50.f });
+	
 	counter = 0;
 }
 

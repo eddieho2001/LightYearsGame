@@ -45,6 +45,10 @@ void ly::Bullet::OnActorEndOverlap(Actor* other)
 void ly::Bullet::Move(float deltaTime)
 {
 	SetRotation(0.f);
-	AddLocationOffset(GetLeftDirection() * mSpeed * deltaTime);
-
+	if (GetTeamId() == 1) {
+		AddLocationOffset(GetLeftDirection() * mSpeed * deltaTime);
+	}
+	else {
+		AddLocationOffset(GetRightDirection() * mSpeed * deltaTime);
+	}
 }

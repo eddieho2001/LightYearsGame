@@ -142,7 +142,7 @@ void ly::Actor::CenterPivot()
 	mSprite.setOrigin(bound.width / 2, bound.height / 2);
 }
 
-bool ly::Actor::IsOutOfWindowBound() const
+bool ly::Actor::IsOutOfWindowBound(float allowance) const
 {
 	//Find the world size first
 	float gameWinWidth = GetWorld()->GetWindowSize().x;
@@ -152,19 +152,19 @@ bool ly::Actor::IsOutOfWindowBound() const
 	float actorHeight = GetGlobalBounds().height;
 	sf::Vector2f actorPos = GetLocation();
 	
-	if (actorPos.x < -actorWidth) {
+	if (actorPos.x < -actorWidth - allowance) {
 		return true;
 	}
 
-	if (actorPos.x > (gameWinWidth + actorWidth)) {
+	if (actorPos.x > (gameWinWidth + actorWidth + allowance)) {
 		return true;
 	}
 
-	if (actorPos.y < -actorHeight) {
+	if (actorPos.y < -actorHeight - allowance) {
 		return true;
 	}
 
-	if (actorPos.y > (gameWinHeight + actorHeight)) {
+	if (actorPos.y > (gameWinHeight + actorHeight + allowance)) {
 		return true;
 	}
 
@@ -231,6 +231,7 @@ void ly::Actor::UpdatePhysicsBodyTransform()
 
 bool ly::Actor::IsOtherHostile(Actor* other) const
 {
+	if (other == nullptr) return false;
 	if (GetTeamId() == GetNeturalTeamId() || other->GetTeamId() == GetNeturalTeamId()) {
 		return false;
 	}
