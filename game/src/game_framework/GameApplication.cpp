@@ -1,41 +1,20 @@
-#include <framework/World.h>
 #include <framework/AssetManager.h>
-#include <framework/Actor.h>
-
-#include "game_framework/GameApplication.h"
-#include "player/PlayerSpaceship.h"
 #include "config.h"
-#include "Enemy/Vanguard.h"
+#include "Level/GameLevelOne.h"
+#include "game_framework/GameApplication.h"
+
+
 
 ly::Application* GetApplication() {
 	return new ly::GameApplication();
 }
 
+
 ly::GameApplication::GameApplication()
 	:Application{ 600, 980, "Light Years", sf::Style::Close | sf::Style::Titlebar }
 {
 	AssetManager::GetInstance().SetAssetRootDir(GetResourceDir());
-	weak<World> newWorld = LoadWorld<World>();
-	//newWorld.lock()->SpawnActors<Actor>();
-	mTestPlayeSpaceship = newWorld.lock()->SpawnActors<PlayerSpaceship>();
-	mTestPlayeSpaceship.lock()->SetLocation(sf::Vector2f(600 / 2, 980 / 2));
-	//mTestPlayeSpaceship.lock()->SetRotation(180.f);
-	//mTestPlayeSpaceship.lock()->SetVelocity(sf::Vector2f{ 0.f, -200.f });
-	weak<Vanguard> testSpacesship = newWorld.lock()->SpawnActors<Vanguard>();
-	testSpacesship.lock()->SetLocation(sf::Vector2f{ 100.f, 50.f });
+	weak<GameLevelOne> newWorld = LoadWorld<GameLevelOne>();
 	
-	counter = 0;
 }
 
-void ly::GameApplication::Tick(float deltaTime)
-{
-	
-	counter += deltaTime;
-	/*
-	if (counter > 10.f) {//After 2s, the actor to be deleted
-		if (!mTestPlayeSpaceship.expired()) {
-			mTestPlayeSpaceship.lock()->Destory();
-		}
-	}
-	*/
-}
