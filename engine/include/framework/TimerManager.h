@@ -25,15 +25,19 @@ namespace ly {
 	public:
 		static TimerManager& GetInstance();
 		template<typename ClassName>
-		void SetTimer(weak<Object> weakRef, void(ClassName::* callback)(), float duration, bool repeat = false) {
-			mTimerList.push_back(Timer(weakRef, [=] {(static_cast<ClassName*>(weakRef.lock().get())->*callback)(); }, duration, repeat) );
+		unsigned int SetTimer(weak<Object> weakRef, void(ClassName::* callback)(), float duration, bool repeat = false) {
+			timerIndex++;
+			mTimers.insert({ timerIndex, Timer(weakRef, [=] {(static_cast<ClassName*>(weakRef.lock().get())->*callback)(); }, duration, repeat) });
+			return timerIndex;
 		}
 
 		void UpdateTimer(float deltaTime);
+		void CleanTimer(unsigned int timerIdx);
 	protected:
 		TimerManager();
 	private:
 		static unique<TimerManager> mTimerMgr;
-		List<Timer> mTimerList;
+		static unsigned int timerIndex;
+		Dictionary<int, Timer> mTimers;
 	};
 }

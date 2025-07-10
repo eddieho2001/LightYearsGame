@@ -3,6 +3,7 @@
 namespace ly {
 	//Because it is static, we nned to initialized it before use.
 	unique<TimerManager> ly::TimerManager::mTimerMgr{ nullptr };
+	unsigned int ly::TimerManager::timerIndex = 0;
 
 	TimerManager& TimerManager::GetInstance()
 	{
@@ -15,13 +16,32 @@ namespace ly {
 
 	void TimerManager::UpdateTimer(float deltaTime)
 	{
-		for (Timer& timer : mTimerList) {
+		//iterate a map
+		for (auto iter = mTimers.begin(); iter != mTimers.end();) {
+			if (iter->second.Expired()) {   //check it is expired and remove from map
+				iter = mTimers.erase(iter);
+			}
+			else {
+				iter->second.TickTime(deltaTime);
+				iter++;
+			}
+		}
+		/*
+		for (Timer& timer : mTimers) {
 			timer.TickTime(deltaTime);
+		}*/
+	}
+
+	void TimerManager::CleanTimer(unsigned int timerIdx)
+	{
+		auto iter = mTimers.find(timerIdx);
+		if (iter != mTimers.end()) {
+			iter->second.SetExpired();//set the timer expired
 		}
 	}
 
 	ly::TimerManager::TimerManager()
-		:mTimerList{}
+		:mTimers{}
 	{
 
 	}

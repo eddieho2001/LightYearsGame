@@ -18,5 +18,6 @@ namespace ly {
 		//Application* mPtrOwner;
 		weak<PlayerSpaceship> mTestPlayeSpaceship;
 		quill::Logger* mlogger;
+		unsigned int timerIdx;
 	};
 }
