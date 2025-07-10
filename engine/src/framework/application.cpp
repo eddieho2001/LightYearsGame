@@ -2,6 +2,7 @@
 #include "framework/World.h"
 #include "framework/AssetManager.h"
 #include "framework/PhysicsSystem.h"
+#include "framework/TimerManager.h"
 
 #include<quill/Frontend.h>
 #include<quill/LogMacros.h>
@@ -83,6 +84,10 @@ void ly::Application::TickInternal(float deltaTime) {
 	if (currentWorld) {
 		currentWorld->TickInternal(deltaTime);
 	}
+
+	//Before calling PhysicalSystems, call Timer first
+	TimerManager::GetInstance().UpdateTimer(deltaTime);
+
 
 	PhysicsSystem::GetInstance().Step(deltaTime);
 

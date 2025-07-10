@@ -4,7 +4,7 @@ set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_CXX_STANDARD 17)
 
 #define variables
-set(CURRENT_VERSION 0.0.9)
+set(CURRENT_VERSION 0.1.0)
 set(QUILL_LIB_NAME quill)
 
 # define the project with name as LightYears
@@ -24,7 +24,7 @@ message(STATUS "task hository --> 0.0.6 v ---> add Box2D library handle collisio
 message(STATUS "task hository --> 0.0.7 v ---> implement Delegate Class, using enable_shared_from_this in stdlib as the top parent")
 message(STATUS "task hository --> 0.0.8 v ---> add and implement VFX effect when enemy have been hit by bullet that empty health")	
 message(STATUS "task hository --> 0.0.9 v ---> add level concept in game")	
-
+message(STATUS "task hository --> 0.1.0 v ---> add timer factility to engine which is very similar to scheduler so that we can use it for any time-based actions")	
 # set all built output directory
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

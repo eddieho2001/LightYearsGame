@@ -1,6 +1,7 @@
 #pragma once
 #include "framework/application.h"
 #include "framework/Core.h"
+#include "framework/Object.h"
 
 #include<quill/Logger.h>
 
@@ -16,7 +17,7 @@ namespace ly {
 	 */
 	class Application; //forward declaration
 	class Actor;
-	class World {
+	class World : public Object{
 	public:
 		World(Application* ptrOwner);
 		void BeginPlayInternal();
@@ -34,8 +35,8 @@ namespace ly {
 		void CleanCycle();
 
 	private:
-		void BeginPlay();
-		void Tick(float deltaTime);
+		virtual void BeginPlay();
+		virtual void Tick(float deltaTime);
 	private:
 		Application *mPtrOwner;
 		bool mBeginPlay;

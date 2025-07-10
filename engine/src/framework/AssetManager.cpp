@@ -1,5 +1,5 @@
 #include "framework/AssetManager.h"
-#include "framework/Core.h"
+//#include "framework/Core.h"
 
 //ly::unique<ly::AssetManager> ly::AssetManager::mPtrAssetManager{ nullptr };
 namespace ly {
@@ -9,7 +9,7 @@ namespace ly {
 	AssetManager& AssetManager::GetInstance()
 	{
 		if (!mPtrAssetManager) {
-			mPtrAssetManager = unique< AssetManager>{ new AssetManager };
+			mPtrAssetManager = std::move(unique< AssetManager>{ new AssetManager });
 		}
 
 		return *mPtrAssetManager;
