@@ -10,8 +10,7 @@
 #include "framework/TimerManager.h"
 
 ly::GameLevelOne::GameLevelOne(Application* owner)
-	:World{ owner }, 
-	 timerIdx{ 0 }
+	:World{ owner }
 {
 	mlogger = quill::Frontend::create_or_get_logger("GameLevelOne", quill::Frontend::create_or_get_sink<quill::ConsoleSink>("sink_id_1"));
 	mlogger->set_immediate_flush(true);
@@ -26,11 +25,11 @@ ly::GameLevelOne::GameLevelOne(Application* owner)
 
 void ly::GameLevelOne::BeginPlay()
 {
-	timerIdx = TimerManager::GetInstance().SetTimer(GetWeakRef(), &GameLevelOne::TimerCallback, 3, true);
+	timerHandler = TimerManager::GetInstance().SetTimer(GetWeakRef(), &GameLevelOne::TimerCallback, 3, true);
 }
 
 void ly::GameLevelOne::TimerCallback()
 {
-	TimerManager::GetInstance().CleanTimer(timerIdx);
-	LOG_INFO(mlogger, "Test: Timer Callback & Clean Timer'Idx :{}", timerIdx);
+	TimerManager::GetInstance().CleanTimer(timerHandler);
+	LOG_INFO(mlogger, "Test: Timer Callback & Clean Timer handler :{}", timerHandler.GetTimerKey());
 }

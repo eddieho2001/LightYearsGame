@@ -3,7 +3,11 @@
 namespace ly {
 	//Because it is static, we nned to initialized it before use.
 	unique<TimerManager> ly::TimerManager::mTimerMgr{ nullptr };
-	unsigned int ly::TimerManager::timerIndex = 0;
+	unsigned int TimerHandler::timerKeyCounter = 0;
+
+	bool operator==(const TimerHandler& lhs, const TimerHandler& rhs) {
+		return lhs.GetTimerKey() == rhs.GetTimerKey();
+	}
 
 	TimerManager& TimerManager::GetInstance()
 	{
@@ -32,9 +36,9 @@ namespace ly {
 		}*/
 	}
 
-	void TimerManager::CleanTimer(unsigned int timerIdx)
+	void TimerManager::CleanTimer(TimerHandler timerHandler)
 	{
-		auto iter = mTimers.find(timerIdx);
+		auto iter = mTimers.find(timerHandler);
 		if (iter != mTimers.end()) {
 			iter->second.SetExpired();//set the timer expired
 		}
@@ -83,4 +87,10 @@ namespace ly {
 	{
 		mIsExpired = true;
 	}
+
+	TimerHandler::TimerHandler()
+		:mTimerKey{ GetNextTimerKey() }
+	{
+	}
+
 }

@@ -6,6 +6,25 @@
 #include "framework/Object.h"
 
 namespace ly {
+	struct TimerHandler {
+	public:
+		TimerHandler();
+		unsigned int GetTimerKey() const { return mTimerKey; };
+	private:
+		static unsigned int GetNextTimerKey() { return timerKeyCounter++; };
+	private:
+		unsigned int mTimerKey;
+		static unsigned int timerKeyCounter;
+	};
+
+	struct TimerHandleHasher {
+	public:
+		std::size_t operator()(const TimerHandler& handler) const {
+			return handler.GetTimerKey();
+		}
+	};
+
+	bool operator==(const TimerHandler& lhs, const TimerHandler& rhs);
 
 	struct Timer{
 	public:
@@ -25,19 +44,20 @@ namespace ly {
 	public:
 		static TimerManager& GetInstance();
 		template<typename ClassName>
-		unsigned int SetTimer(weak<Object> weakRef, void(ClassName::* callback)(), float duration, bool repeat = false) {
-			timerIndex++;
-			mTimers.insert({ timerIndex, Timer(weakRef, [=] {(static_cast<ClassName*>(weakRef.lock().get())->*callback)(); }, duration, repeat) });
-			return timerIndex;
+		TimerHandler SetTimer(weak<Object> weakRef, void(ClassName::* callback)(), float duration, bool repeat = false) {
+			TimerHandler newHandler{};
+			mTimers.insert({ newHandler, Timer(weakRef, [=] {(static_cast<ClassName*>(weakRef.lock().get())->*callback)(); }, duration, repeat) });
+			return newHandler;
 		}
 
 		void UpdateTimer(float deltaTime);
-		void CleanTimer(unsigned int timerIdx);
+		void CleanTimer(TimerHandler timerHandler);
 	protected:
 		TimerManager();
 	private:
 		static unique<TimerManager> mTimerMgr;
-		static unsigned int timerIndex;
-		Dictionary<int, Timer> mTimers;
+		
+		//Note the key is customed object, the map don't know how to compare the key customed object, we need to teach map how to compare them!
+		Dictionary<TimerHandler, Timer, TimerHandleHasher> mTimers;
 	};
 }

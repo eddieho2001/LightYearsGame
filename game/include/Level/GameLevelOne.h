@@ -3,6 +3,7 @@
 #include<quill/Logger.h>
 #include "framework/World.h"
 #include "framework/Core.h"
+#include "framework/TimerManager.h"
 
 namespace ly {
 	//class Application;
@@ -18,6 +19,6 @@ namespace ly {
 		//Application* mPtrOwner;
 		weak<PlayerSpaceship> mTestPlayeSpaceship;
 		quill::Logger* mlogger;
-		unsigned int timerIdx;
+		TimerHandler timerHandler;
 	};
 }

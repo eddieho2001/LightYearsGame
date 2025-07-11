@@ -25,6 +25,7 @@ message(STATUS "task hository --> 0.0.7 v ---> implement Delegate Class, using e
 message(STATUS "task hository --> 0.0.8 v ---> add and implement VFX effect when enemy have been hit by bullet that empty health")	
 message(STATUS "task hository --> 0.0.9 v ---> add level concept in game")	
 message(STATUS "task hository --> 0.1.0 v ---> add timer factility to engine which is very similar to scheduler so that we can use it for any time-based actions")	
+message(STATUS "task hository --> 0.1.1 v ---> further refined TimerManager internally with TimerHandler for more safe.")	
 # set all built output directory
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
