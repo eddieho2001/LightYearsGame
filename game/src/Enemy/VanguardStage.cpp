@@ -13,7 +13,9 @@ ly::VanguardStage::VanguardStage(World* world)
 	mCurrentRowVanguardCount{ 0 },
 	mLeftSpawnLoc{0.0f, 0.0f},
 	mRightSpawnLoc{0.0f, 0.0f},
-	mSpawnLoc{0.0f, 0.0f}
+	mSpawnLoc{0.0f, 0.0f},
+	mSpawnTimerHdr{},
+	mSwitchTimerHdr{}
 {
 }
 
@@ -39,6 +41,7 @@ void ly::VanguardStage::SpawnVanguard()
 	if (mCurrentRowVanguardCount == mVarguardsPerRow) {
 		TimerManager::GetInstance().CleanTimer(mSpawnTimerHdr);
 		mSwitchTimerHdr = TimerManager::GetInstance().SetTimer(GetWeakRef(), &VanguardStage::SwitchRow, mSwitchInterval, false);
+		mCurrentRowVanguardCount = 0;//if not reset, it canot switch
 	}
 }
 
