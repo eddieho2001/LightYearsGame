@@ -8,6 +8,7 @@
 #include "framework/World.h"
 #include "player/PlayerSpaceship.h"
 #include "framework/TimerManager.h"
+#include "gameplay/GameStage.h"
 
 ly::GameLevelOne::GameLevelOne(Application* owner)
 	:World{ owner }
@@ -32,4 +33,9 @@ void ly::GameLevelOne::TimerCallback()
 {
 	TimerManager::GetInstance().CleanTimer(timerHandler);
 	LOG_INFO(mlogger, "Test: Timer Callback & Clean Timer handler :{}", timerHandler.GetTimerKey());
+}
+
+void ly::GameLevelOne::InitGameStages()
+{
+	AddGameStage(shared<GameStage>{new GameStage{ this }});
 }

@@ -20,7 +20,7 @@ void ly::GameStage::StartStage()
 
 void ly::GameStage::TickStage(float deltaTime)
 {
-	LOG_INFO(mlogger, "Stage Tick{}", deltaTime);
+	//LOG_INFO(mlogger, "Stage Tick{}", deltaTime);
 }
 
 void ly::GameStage::FinishStage()

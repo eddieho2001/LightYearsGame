@@ -13,10 +13,11 @@ namespace ly {
 	 * 2 ) Implement the tick function
 	 * 3 ) It manage a two set of lifetime of Actor class
 	 * 4 ) The Actor inheritacne from Object so that World class can manage the Actor lifetime
-	     
+	 *    
 	 */
 	class Application; //forward declaration
 	class Actor;
+	class GameStage;
 	class World : public Object{
 	public:
 		World(Application* ptrOwner);
@@ -34,9 +35,15 @@ namespace ly {
 		//Add CleanCycle for clean usage actor type under the world
 		void CleanCycle();
 
+		//Add game stage to world
+		void AddGameStage(const shared<GameStage>& newStage);
+
 	private:
 		virtual void BeginPlay();
 		virtual void Tick(float deltaTime);
+		virtual void InitGameStages();
+		void NextGameStage();
+		virtual void AllGameStageFinished();
 	private:
 		Application *mPtrOwner;
 		bool mBeginPlay;
@@ -44,6 +51,9 @@ namespace ly {
 		List<shared<Actor> > mPendingActors;
 		quill::Logger* mlogger;
 
+		//Using shared pointer because we need to use delegate & timer 
+		List<shared<GameStage>> mGameStages;
+		int mCurrentStageIdx;
 	};
 
 	template<typename actorType, typename... Args>

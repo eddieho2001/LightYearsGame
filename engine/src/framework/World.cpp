@@ -1,16 +1,19 @@
-#include "framework/World.h"
-#include "framework/Actor.h"
 #include<SFML/Graphics.hpp>
 #include<quill/Frontend.h>
 #include<quill/LogMacros.h>
 #include<quill/sinks/ConsoleSink.h>
 
+#include "framework/World.h"
+#include "framework/Actor.h"
+#include "gameplay/GameStage.h"
+
 ly::World::World(Application* ptrOwner)
 	:mPtrOwner{ ptrOwner }, 
 	 mBeginPlay{false},
-	mActors{},
-	mPendingActors{}
-
+	 mActors{},
+	 mPendingActors{},
+	 mGameStages{},
+	 mCurrentStageIdx{ -1 }
 {
 	mlogger = quill::Frontend::create_or_get_logger("World", quill::Frontend::create_or_get_sink<quill::ConsoleSink>("sink_id_1"));
 	mlogger->set_immediate_flush(true);
@@ -33,6 +36,8 @@ void ly::World::BeginPlayInternal()
 	if (!mBeginPlay) {
 		mBeginPlay = true;
 		BeginPlay();
+		InitGameStages();
+		NextGameStage();
 	}
 }
 
@@ -67,12 +72,40 @@ void ly::World::TickInternal(float deltaTime)
 		}*/
 	}
 
+	//Update and draw the current stage 
+	if (mCurrentStageIdx >= 0 && mCurrentStageIdx < mGameStages.size()) {
+		mGameStages[mCurrentStageIdx]->TickStage(deltaTime);
+	}
+
+
 	Tick(deltaTime);
 }
 
 void ly::World::Tick(float deltaTime)
 {
 	//LOG_INFO(mlogger, "Ticking at {}", 1.f/ deltaTime);
+}
+
+void ly::World::InitGameStages()
+{
+}
+
+void ly::World::NextGameStage()
+{
+	++mCurrentStageIdx;
+	if (mCurrentStageIdx >= 0 && mCurrentStageIdx < mGameStages.size()) {
+		//Using delegate's NextGameStage to chain action together
+		mGameStages[mCurrentStageIdx]->onStageFinished.BindAction(GetWeakRef(), &World::NextGameStage);
+		mGameStages[mCurrentStageIdx]->StartStage();
+		
+	}
+	else {
+		AllGameStageFinished();
+	}
+}
+
+void ly::World::AllGameStageFinished()
+{
 }
 
 void ly::World::BeginPlay()
@@ -90,6 +123,20 @@ void ly::World::CleanCycle()
 			++iter;//it also need to increase the iterator
 		}
 	}
+	//cleaning the game stage here
+	for (auto iter = mGameStages.begin(); iter != mGameStages.end();) {
+		if (iter->get()->IsStageFininshed()) {
+			iter = mGameStages.erase(iter);
+		}
+		else {
+			++iter;//it also need to increase the iterator
+		}
+	}
+}
+
+void ly::World::AddGameStage(const shared<GameStage>& newStage)
+{
+	mGameStages.push_back(newStage);
 }
 
 

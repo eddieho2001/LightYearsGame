@@ -15,6 +15,7 @@ namespace ly {
 		virtual void BeginPlay() override;
 		//Because we need to use TimerManager to set timer do something, we need to implement callback function here
 		void TimerCallback();
+		virtual void InitGameStages() override;
 	private:
 		//Application* mPtrOwner;
 		weak<PlayerSpaceship> mTestPlayeSpaceship;

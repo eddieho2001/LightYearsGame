@@ -4,7 +4,7 @@
 #include "framework/Delegate.h"
 
 namespace ly {
-	class World;
+	class World;//world will responsible for manage Stages 
 	class GameStage : public Object {
 	public:
 		GameStage(World* world);
