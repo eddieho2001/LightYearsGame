@@ -2,26 +2,39 @@ message(STATUS "Sub Project/Target Name : ${LIGHTYEARS_GAME_TARGET_NAME} --> CMA
 add_executable(${LIGHTYEARS_GAME_TARGET_NAME} 
 	${CMAKE_CURRENT_SOURCE_DIR}/include/game_framework/GameApplication.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/game_framework/GameApplication.cpp
+	
 	${CMAKE_CURRENT_SOURCE_DIR}/include/spaceship/Spaceship.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/spaceship/Spaceship.cpp
+	
 	${CMAKE_CURRENT_SOURCE_DIR}/include/player/PlayerSpaceship.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/player/PlayerSpaceship.cpp
+	
 	${CMAKE_CURRENT_SOURCE_DIR}/include/weapon/Shooter.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/Shooter.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/weapon/BulletShooter.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/BulletShooter.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/weapon/Bullet.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/weapon/Bullet.cpp
+	
 	${CMAKE_CURRENT_SOURCE_DIR}/include/gameplay/HealthComponent.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/gameplay/HealthComponent.cpp
+	
 	${CMAKE_CURRENT_SOURCE_DIR}/include/VFX/Explosion.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/VFX/Explosion.cpp
+	
 	${CMAKE_CURRENT_SOURCE_DIR}/include/Enemy/EnemySpaceship.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Enemy/EnemySpaceship.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/Enemy/Vanguard.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Enemy/Vanguard.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/Enemy/VanguardStage.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/Enemy/VanguardStage.cpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/include/Level/GameLevelOne.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Level/GameLevelOne.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/include/Level/GameLevelOne.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/Level/GameLevelOne.cpp
+	
 	
  )
 

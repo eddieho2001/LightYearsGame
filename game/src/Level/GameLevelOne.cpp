@@ -9,6 +9,7 @@
 #include "player/PlayerSpaceship.h"
 #include "framework/TimerManager.h"
 #include "gameplay/GameStage.h"
+#include "Enemy/VanguardStage.h"
 
 ly::GameLevelOne::GameLevelOne(Application* owner)
 	:World{ owner }
@@ -19,23 +20,29 @@ ly::GameLevelOne::GameLevelOne(Application* owner)
 	mTestPlayeSpaceship = SpawnActors<PlayerSpaceship>();
 	mTestPlayeSpaceship.lock()->SetLocation(sf::Vector2f(600 / 2, 980 / 2));
 	
+
+	/*
 	weak<Vanguard> testSpacesship = SpawnActors<Vanguard>();
 	testSpacesship.lock()->SetLocation(sf::Vector2f{ 100.f, 50.f });
 	// we cannot call the TimerManager::GetInstance() because the World ctor not yet finish!
+	*/
 }
 
 void ly::GameLevelOne::BeginPlay()
 {
-	timerHandler = TimerManager::GetInstance().SetTimer(GetWeakRef(), &GameLevelOne::TimerCallback, 3, true);
+	//timerHandler = TimerManager::GetInstance().SetTimer(GetWeakRef(), &GameLevelOne::TimerCallback, 3, true);
 }
 
 void ly::GameLevelOne::TimerCallback()
 {
+	/*
 	TimerManager::GetInstance().CleanTimer(timerHandler);
 	LOG_INFO(mlogger, "Test: Timer Callback & Clean Timer handler :{}", timerHandler.GetTimerKey());
+	*/
 }
 
 void ly::GameLevelOne::InitGameStages()
 {
-	AddGameStage(shared<GameStage>{new GameStage{ this }});
+	//AddGameStage(shared<GameStage>{new GameStage{ this }});
+	AddGameStage(shared<VanguardStage>{new VanguardStage{ this }});
 }
