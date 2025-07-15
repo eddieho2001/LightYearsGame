@@ -36,8 +36,8 @@ void ly::VanguardStage::StageFinished()
 
 void ly::VanguardStage::SpawnVanguard()
 {
-	//weak<Vanguard> newVanguard = GetWorld()->SpawnActors<Vanguard>();
-	weak<TwinBlade> newVanguard = GetWorld()->SpawnActors<TwinBlade>();
+	weak<Vanguard> newVanguard = GetWorld()->SpawnActors<Vanguard>();
+	//weak<TwinBlade> newVanguard = GetWorld()->SpawnActors<TwinBlade>();
 	newVanguard.lock()->SetLocation(mSpawnLoc);
 	++mCurrentRowVanguardCount;
 	if (mCurrentRowVanguardCount == mVarguardsPerRow) {

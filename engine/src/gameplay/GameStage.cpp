@@ -26,9 +26,9 @@ void ly::GameStage::TickStage(float deltaTime)
 void ly::GameStage::FinishStage()
 {
 	LOG_INFO(mlogger, "Stage Finish...");
-	onStageFinished.Broadcast();
 	mStageFinished = true;
 	StageFinished();
+	onStageFinished.Broadcast();
 }
 
 void ly::GameStage::StageFinished()

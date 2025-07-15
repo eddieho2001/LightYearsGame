@@ -6,28 +6,26 @@
 
 namespace ly {
 	class World;
-	class VanguardStage: public GameStage{
+	class TwinBladeStage:public GameStage {
 	public:
-		VanguardStage(World* world);
+		TwinBladeStage(World* world);
 		virtual void StartStage() override;
+		
+
 	private:
+		void SpawnTwinBlade();
 		virtual void StageFinished() override;
-		void SpawnVanguard();
-		void SwitchRow();
 	private:
 		float mSpawnInterval;
-		float mSwitchInterval;
-		float mSpawnDistanceToEdge;
+		float mSpawnDistanceToCenter;
+		int mSpawnAmt;
+		int mCurrentSpawnCount;
+
 		sf::Vector2f mLeftSpawnLoc;
 		sf::Vector2f mRightSpawnLoc;
 		sf::Vector2f mSpawnLoc;
 
-		TimerHandle mSpawnTimerHdr;
-		TimerHandle mSwitchTimerHdr;
+		TimerHandle mSpawnTimerHandle;
 
-		int mRowsToSpawn;
-		int mRowSpawnCount;
-		int mVarguardsPerRow;
-		int mCurrentRowVanguardCount;
 	};
 }

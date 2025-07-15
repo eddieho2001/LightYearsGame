@@ -10,6 +10,7 @@
 #include "framework/TimerManager.h"
 #include "gameplay/GameStage.h"
 #include "Enemy/VanguardStage.h"
+#include "Enemy/TwinBladeStage.h"
 
 ly::GameLevelOne::GameLevelOne(Application* owner)
 	:World{ owner }
@@ -45,4 +46,6 @@ void ly::GameLevelOne::InitGameStages()
 {
 	//AddGameStage(shared<GameStage>{new GameStage{ this }});
 	AddGameStage(shared<VanguardStage>{new VanguardStage{ this }});
+	AddGameStage(shared<TwinBladeStage>{new TwinBladeStage{ this }});
+
 }

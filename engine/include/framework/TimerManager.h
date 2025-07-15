@@ -6,9 +6,9 @@
 #include "framework/Object.h"
 
 namespace ly {
-	struct TimerHandler {
+	struct TimerHandle {
 	public:
-		TimerHandler();
+		TimerHandle();
 		unsigned int GetTimerKey() const { return mTimerKey; };
 	private:
 		static unsigned int GetNextTimerKey() { return timerKeyCounter++; };
@@ -19,12 +19,12 @@ namespace ly {
 
 	struct TimerHandleHasher {
 	public:
-		std::size_t operator()(const TimerHandler& handler) const {
+		std::size_t operator()(const TimerHandle& handler) const {
 			return handler.GetTimerKey();
 		}
 	};
 
-	bool operator==(const TimerHandler& lhs, const TimerHandler& rhs);
+	bool operator==(const TimerHandle& lhs, const TimerHandle& rhs);
 
 	struct Timer{
 	public:
@@ -44,20 +44,20 @@ namespace ly {
 	public:
 		static TimerManager& GetInstance();
 		template<typename ClassName>
-		TimerHandler SetTimer(weak<Object> weakRef, void(ClassName::* callback)(), float duration, bool repeat = false) {
-			TimerHandler newHandler{};
+		TimerHandle SetTimer(weak<Object> weakRef, void(ClassName::* callback)(), float duration, bool repeat = false) {
+			TimerHandle newHandler{};
 			mTimers.insert({ newHandler, Timer(weakRef, [=] {(static_cast<ClassName*>(weakRef.lock().get())->*callback)(); }, duration, repeat) });
 			return newHandler;
 		}
 
 		void UpdateTimer(float deltaTime);
-		void CleanTimer(TimerHandler timerHandler);
+		void CleanTimer(TimerHandle timerHandler);
 	protected:
 		TimerManager();
 	private:
 		static unique<TimerManager> mTimerMgr;
 		
 		//Note the key is customed object, the map don't know how to compare the key customed object, we need to teach map how to compare them!
-		Dictionary<TimerHandler, Timer, TimerHandleHasher> mTimers;
+		Dictionary<TimerHandle, Timer, TimerHandleHasher> mTimers;
 	};
 }
