@@ -27,14 +27,23 @@ void ly::BulletShooter::ShootImpl()
 {
 
 	sf::Vector2f ownerForwardDir = GetOwner()->GetForwardDirection();
-	sf::Vector2f ownerRightDir = GetOwner()->GetLeftDirection();
+
+	
+	//sf::Vector2f ownerRightDir = GetOwner()->GetLeftDirection();
+	//sf::Vector2f ownerRightDir = GetOwner()->GetRightDirection();
 
 	mCoolDownClock.restart();
 	weak<Bullet> newBullet = GetOwner()->GetWorld()->SpawnActors<Bullet>(GetOwner(), "SpaceShooterRedux/PNG/Lasers/laserBlue01.png");
-	//newBullet.lock()->SetLocation(GetOwner()->GetLocation() + ownerForwardDir * mLocalPositionOffset.x + ownerRightDir * mLocalPositionOffset.y);
-	//newBullet.lock()->SetRotation(GetOwner()->GetRotataion() + mLocalRotationOffset);
-	newBullet.lock()->SetLocation(GetOwner()->GetLocation());
-	newBullet.lock()->SetRotation(GetOwner()->GetRotataion());
+	if (GetTeamId() == 1) {
+		newBullet.lock()->SetLocation(GetOwner()->GetLocation() + ownerForwardDir * mLocalPositionOffset.x + GetOwner()->GetLeftDirection() * mLocalPositionOffset.y);
+	}
+	else {
+		newBullet.lock()->SetLocation(GetOwner()->GetLocation() + ownerForwardDir * mLocalPositionOffset.x + GetOwner()->GetRightDirection() * mLocalPositionOffset.y);
+	}
+	
+	newBullet.lock()->SetRotation(GetOwner()->GetRotataion() + mLocalRotationOffset);
+	//newBullet.lock()->SetLocation(GetOwner()->GetLocation());
+	//newBullet.lock()->SetRotation(GetOwner()->GetRotataion());
 	
 	_LOG("[BulletShooter] Shooting");
 

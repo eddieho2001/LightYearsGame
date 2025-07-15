@@ -3,7 +3,7 @@
 
 ly::Vanguard::Vanguard(World* ptrOwner, const std::string& texturePath, const sf::Vector2f& velocity)
 	:EnemySpaceship{ ptrOwner, texturePath },
-	mShooter{ new BulletShooter{this, 1.f, {50.f, 0.f}} }
+	mShooter{ new BulletShooter{this, 1.f, {0.f, 0.f}} }
 {
 	SetVelocity(velocity);
 	//SetRotation(-180.f);

@@ -11,5 +11,5 @@ void ly::Shooter::Shoot()
 ly::Shooter::Shooter(Actor* ptrOwner)
 	: mOwner{ ptrOwner }
 {
-
+	mTeamId = ptrOwner->GetTeamId();
 }

@@ -8,7 +8,7 @@ ly::PlayerSpaceship::PlayerSpaceship(World* ptrOwner, const std::string& texture
 	:Spaceship{ ptrOwner , texturePath }, 
 	 mDisplacementInput{}, 
 	mfSpeed{200.f}, 
-	mShooter{ new BulletShooter{this, 0.1f} }
+	mShooter{ new BulletShooter{this, 0.1f, {0.f, 0.f} }}
 {
 	SetTeamId(1);
 }

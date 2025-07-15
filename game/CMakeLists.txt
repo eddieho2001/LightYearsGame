@@ -28,6 +28,8 @@ add_executable(${LIGHTYEARS_GAME_TARGET_NAME}
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Enemy/Vanguard.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/Enemy/VanguardStage.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Enemy/VanguardStage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/Enemy/TwinBlade.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/Enemy/TwinBlade.cpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/include/Level/GameLevelOne.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Level/GameLevelOne.cpp

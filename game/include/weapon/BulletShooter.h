@@ -12,6 +12,7 @@ namespace ly {
 	private:
 		sf::Clock mCoolDownClock;
 		float mfTimeForCoolDown;
+
 		sf::Vector2f mLocalPositionOffset;
 		float mLocalRotationOffset;
 	};

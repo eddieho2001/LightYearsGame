@@ -18,11 +18,13 @@ namespace ly {
 		virtual bool CanShoot() const { return true; }
 		virtual bool IsOnCooldown() const { return false; }
 		Actor* GetOwner() { return mOwner; }
+		int GetTeamId() const { return mTeamId; }
 	protected:
 		Shooter(Actor *ptrOwner);
 	private:
 		virtual void ShootImpl() = 0;
 	private:
 		Actor* mOwner;
+		int mTeamId;
 	};
 }
