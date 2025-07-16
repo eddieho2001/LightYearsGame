@@ -77,8 +77,6 @@ void ly::World::TickInternal(float deltaTime)
 		mCurrentStageIter->get()->TickStage(deltaTime);
 	}
 	
-
-
 	Tick(deltaTime);
 }
 

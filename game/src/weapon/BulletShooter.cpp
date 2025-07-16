@@ -41,6 +41,7 @@ void ly::BulletShooter::ShootImpl()
 		newBullet.lock()->SetLocation(GetOwner()->GetLocation() + ownerForwardDir * mLocalPositionOffset.x + GetOwner()->GetRightDirection() * mLocalPositionOffset.y);
 	}
 	
+
 	newBullet.lock()->SetRotation(GetOwner()->GetRotataion() + mLocalRotationOffset);
 	//newBullet.lock()->SetLocation(GetOwner()->GetLocation());
 	//newBullet.lock()->SetRotation(GetOwner()->GetRotataion());

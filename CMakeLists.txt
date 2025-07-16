@@ -29,6 +29,8 @@ message(STATUS "task hository --> 0.1.1 v ---> further refined TimerManager inte
 message(STATUS "task hository --> 0.1.2 v ---> Use timer class to control enemy attach pattern named concept is Stage")
 message(STATUS "task hository --> 0.1.3 v ---> Add Vanguard, Vanguard Stage and Twin Blade emeny classes")
 message(STATUS "task hository --> 0.1.4 v ---> Add Wait Stage as empty stage.")
+message(STATUS "task hository --> 0.1.5 v ---> Add Hexagon enemy type.")
+
 # set all built output directory
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

@@ -37,6 +37,42 @@ class AssetManager{
 	+void SetAssetRootDir(const std::string& p_strDir)
 }
 
+
+
+class Timer{
+	-td::pair<weak<Object>, std::function<void()>> listenerPair
+	-float mDuration
+	-bool mIsRepeat
+	-float mTimeCounter
+	-bool mIsExpired
+	+Timer(weak<Object> weakRef, std::function<void()> callback, float duration, bool repeat)
+	+void TickTime(float deltaTime)
+	+bool Expired() const;
+	+void SetExpired()
+}
+
+class TimerHandle{
+	-unsigned int mTimerKey
+	-static unsigned int timerKeyCounter
+	-static unsigned int GetNextTimerKey()
+	+TimerHandle()
+	+unsigned int GetTimerKey() const
+}
+
+class TimerHandleHasher{
+	+std::size_t operator()(const TimerHandle& handler) const
+}
+
+class TimerManager{
+	-static unique<TimerManager> mTimerMgr
+	-Dictionary<TimerHandle, Timer, TimerHandleHasher> mTimers
+	#TimerManager()
+	+static TimerManager& GetInstance()
+	+template<typename ClassName> TimerHandle SetTimer()
+	+void UpdateTimer(float deltaTime)
+	+void CleanTimer(TimerHandle timerHandler)
+}
+
 class PhysicsSystem{
 	-static unique<PhysicsSystem> mPhysicsSystem
 	-b2World mPhysicsWorld
@@ -100,6 +136,8 @@ class World{
 	-List<shared<Actor>> mActors
 	-List<shared<Actor>> mPendingActors
 	-quill::Logger* mlogger
+	-List<shared<GameStage>> mGameStages
+	-List<shared<GameStage>>::iterator mCurrentStageIter
 	+World(Application* ptrOwner)
 	+weak<actorType> SpawnActors()
 	+void BeginPlayInternal();
@@ -111,6 +149,14 @@ class World{
 	+void CleanCycle()
     -void BeginPlay()	
 	-void Tick(float deltaTime)
+}
+
+class GameLevelOne{
+	-weak<PlayerSpaceship> mTestPlayeSpaceship
+	-TimerHandle timerHandler
+	-void TimerCallback()
+	-virtual void InitGameStages() override
+	+GameLevelOne(Application* owner)
 }	
 
 class Object{
@@ -196,8 +242,43 @@ class PlayerSpaceship{
 	-virtual void Shoot() override
 	+PlayerSpaceship(World* ptrOwner, const std::string& texturePath="SpaceShooterRedux/PNG/playerShip1_blue.png")
 	+virtual void Tick(float deltaTime) override
-	+virtual void Shoot() override
+	+virtual void Shoot() override	
+}
+
+class EnemySpaceship{
+	-float mCollisionDamage
+	-virtual void OnActorBeginOverlap(Actor* other) override
+	-virtual void OnActorEndOverlap(Actor* other) override
+	+EnemySpaceship(World* ptrOwner, const std::string& texturePath = "", float collisionDamage = 200.f)
+	+virtual void Tick(float deltaTime) override
+}
+
+class Hexagon{
+	-unique<BulletShooter> mShooter01
+	-unique<BulletShooter> mShooter02
+	-unique<BulletShooter> mShooter03
+	-unique<BulletShooter> mShooter04
+	-unique<BulletShooter> mShooter05
+	-unique<BulletShooter> mShooter06
+	-virtual void Shoot() override
+	+Hexagon(World* ptrOwner, const std::string& texturePath = "SpaceShooterRedux/PNG/Enemies/enemyGreen4.png", const sf::Vector2f& velocity = { 0.f,150.f })
+	+virtual void Tick(float deltaTime) override
+}
+
+class TwinBlade{
+	-unique<BulletShooter> mLeftShooter
+	-unique<BulletShooter> mRightShooter
+	-virtual void Shoot() override
+	+TwinBlade(World* ptrOwner, const std::string& texturePath = "SpaceShooterRedux/PNG/Enemies/enemyBlack1.png", const sf::Vector2f& velocity = { 0.f,120.f })
+	+virtual void Tick(float deltaTime) override
 	
+}
+
+class Vanguard{
+	-unique<BulletShooter> mShooter
+	-virtual void Shoot() override
+	+Vanguard(World* ptrOwner, const std::string& texturePath = "SpaceShooterRedux/PNG/Enemies/enemyBlue1.png", const sf::Vector2f& velocity = {0.f,150.f})
+	+virtual void Tick(float deltaTime) override
 }
 
 class Shooter{
@@ -235,6 +316,18 @@ class Bullet{
 	+virtual void OnActorEndOverlap(Actor* other)
 }
 
+class Particle{
+	-sf::Vector2f mVelocity
+	-sf::Clock mTimer
+	-float mLifeTime
+	-void Move(float deltaTime)
+	-void Fade(float deltaTime)
+	+Particle(World* ptrOwner, const std::string& texturePath = "")
+	+void RandomVelocity(float minSpeed, float maxSpeed)
+	+void RandomSize(float min, float max)
+	+void RandomLiftTime(float min, float max)
+}
+
 class HealthComponent{
 	-float mHealth
 	-float mMaxHealth
@@ -250,14 +343,94 @@ class HealthComponent{
 	+Delegate<> onHealthEmpty
 }
 
+class Explosion{
+	-int mParticleAmt
+	-List<std::string> mListParticleImgPath
+	-float mMinSpeed
+	-float mMaxSpeed
+	-float mMinSize
+	-float mMaxSize
+	-float mMinLifeTime
+	-float mMaxLifeTime
+	-sf::Color mParticleColor
+	+Explosion()
+	+void SpawnExplosion(World* ptrWorld, const sf::Vector2f& loc)
+}
+
+class GameStage{
+	-World* mWorld
+	-bool mStageFinished
+	-virtual void StageFinished()
+	+GameStage(World* world)
+	+const World* GetWorld() const
+	+World* GetWorld()
+	+void FinishStage()
+	+bool IsStageFininshed() const
+	+virtual void StartStage()
+	+virtual void TickStage(float deltaTime)
+	+Delegate<> onStageFinished
+} 
+
+class WaitStage{
+	-float mWaitDuration
+	+WaitStage(World* world, float waitDuration = 5.0f)
+	+virtual void StartStage() override
+}
+
+class TwinBladeStage{
+	-float mSpawnInterval
+	-float mSpawnDistanceToCenter
+	-int mSpawnAmt
+	-int mCurrentSpawnCount
+	-sf::Vector2f mLeftSpawnLoc
+	-sf::Vector2f mRightSpawnLoc
+	-sf::Vector2f mSpawnLoc
+	-TimerHandle mSpawnTimerHandle
+	-void SpawnTwinBlade()
+	-virtual void StageFinished() override
+	+TwinBladeStage(World* world)
+	+virtual void StartStage() override
+}
+
+class VanguardStage{
+	-float mSpawnInterval
+	-float mSwitchInterval
+	-float mSpawnDistanceToEdge
+	-int mRowsToSpawn
+	-int mRowSpawnCount
+	-int mVarguardsPerRow
+	-int mCurrentRowVanguardCount
+	-sf::Vector2f mLeftSpawnLoc
+	-sf::Vector2f mRightSpawnLoc
+	-sf::Vector2f mSpawnLoc
+	-TimerHandle mSpawnTimerHdr
+	-TimerHandle mSwitchTimerHdr
+	-void SpawnVanguard()
+	-void SwitchRow()
+	-virtual void StageFinished() override
+	+VanguardStage(World* world)
+	+virtual void StartStage() override
+}
+
 Application <|--GameApplication
 Application *--World
 World *--Actor
+World *--GameStage
+World <|--GameLevelOne
 enable_shared_from_this <|--Object
 Object <|--Actor
+Object <|--GameStage
+GameStage <|--WaitStage
+GameStage <|--TwinBladeStage
+GameStage <|--VanguardStage
 Actor <|--Spaceship
 Actor <|--Bullet
+Actor <|--Particle
 Spaceship <|--PlayerSpaceship
+Spaceship <|--EnemySpaceship
+EnemySpaceship <|--Vanguard
+EnemySpaceship <|--Hexagon
+EnemySpaceship <|--TwinBlade
 Shooter <|--BulletShooter
 PlayerSpaceship *--BulletShooter
 b2ContactListener <|--PhysicsContractListener
