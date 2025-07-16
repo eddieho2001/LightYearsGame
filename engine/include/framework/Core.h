@@ -7,7 +7,7 @@
 #include<unordered_set>
 
 namespace ly {
-	//declared unique as nickname as unique pointer
+	//using template alias declarations using keyword for declare alias
 	template<typename T>
 	using unique = std::unique_ptr<T>;
 

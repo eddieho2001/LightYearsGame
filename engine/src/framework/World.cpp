@@ -13,7 +13,7 @@ ly::World::World(Application* ptrOwner)
 	 mActors{},
 	 mPendingActors{},
 	 mGameStages{},
-	 mCurrentStageIdx{ -1 }
+	mCurrentStageIter{ mGameStages .end()}
 {
 	mlogger = quill::Frontend::create_or_get_logger("World", quill::Frontend::create_or_get_sink<quill::ConsoleSink>("sink_id_1"));
 	mlogger->set_immediate_flush(true);
@@ -37,7 +37,7 @@ void ly::World::BeginPlayInternal()
 		mBeginPlay = true;
 		BeginPlay();
 		InitGameStages();
-		NextGameStage();
+		StartStages();
 	}
 }
 
@@ -73,9 +73,10 @@ void ly::World::TickInternal(float deltaTime)
 	}
 
 	//Update and draw the current stage 
-	if (mCurrentStageIdx >= 0 && mCurrentStageIdx < mGameStages.size()) {
-		mGameStages[mCurrentStageIdx]->TickStage(deltaTime);
+	if (mCurrentStageIter != mGameStages.end()) {
+		mCurrentStageIter->get()->TickStage(deltaTime);
 	}
+	
 
 
 	Tick(deltaTime);
@@ -92,12 +93,10 @@ void ly::World::InitGameStages()
 
 void ly::World::NextGameStage()
 {
-	++mCurrentStageIdx;
-	if (mCurrentStageIdx >= 0 && mCurrentStageIdx < mGameStages.size()) {
-		//Using delegate's NextGameStage to chain action together
-		mGameStages[mCurrentStageIdx]->onStageFinished.BindAction(GetWeakRef(), &World::NextGameStage);
-		mGameStages[mCurrentStageIdx]->StartStage();
-		
+	mCurrentStageIter = mGameStages.erase(mCurrentStageIter);
+	if (mCurrentStageIter != mGameStages.end()) {
+		mCurrentStageIter->get()->StartStage();
+		mCurrentStageIter->get()->onStageFinished.BindAction(GetWeakRef(), &World::NextGameStage);
 	}
 	else {
 		AllGameStageFinished();
@@ -106,6 +105,14 @@ void ly::World::NextGameStage()
 
 void ly::World::AllGameStageFinished()
 {
+	LOG_INFO(mlogger, "All Stage is finished!");
+}
+
+void ly::World::StartStages()
+{
+	mCurrentStageIter = mGameStages.begin();
+	mCurrentStageIter->get()->StartStage();
+	mCurrentStageIter->get()->onStageFinished.BindAction(GetWeakRef(), &World::NextGameStage);
 }
 
 void ly::World::BeginPlay()
@@ -124,6 +131,7 @@ void ly::World::CleanCycle()
 		}
 	}
 	//cleaning the game stage here
+	/* This will not work for multiple stage
 	for (auto iter = mGameStages.begin(); iter != mGameStages.end();) {
 		if (iter->get()->IsStageFininshed()) {
 			iter = mGameStages.erase(iter);
@@ -131,7 +139,7 @@ void ly::World::CleanCycle()
 		else {
 			++iter;//it also need to increase the iterator
 		}
-	}
+	}*/
 }
 
 void ly::World::AddGameStage(const shared<GameStage>& newStage)

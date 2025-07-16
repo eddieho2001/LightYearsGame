@@ -9,6 +9,7 @@
 #include "player/PlayerSpaceship.h"
 #include "framework/TimerManager.h"
 #include "gameplay/GameStage.h"
+#include "gameplay/WaitStage.h"
 #include "Enemy/VanguardStage.h"
 #include "Enemy/TwinBladeStage.h"
 
@@ -46,6 +47,7 @@ void ly::GameLevelOne::InitGameStages()
 {
 	//AddGameStage(shared<GameStage>{new GameStage{ this }});
 	AddGameStage(shared<VanguardStage>{new VanguardStage{ this }});
+	AddGameStage(shared<WaitStage>{new WaitStage{ this, 5.f }});
 	AddGameStage(shared<TwinBladeStage>{new TwinBladeStage{ this }});
 
 }

@@ -44,6 +44,7 @@ namespace ly {
 		virtual void InitGameStages();
 		void NextGameStage();
 		virtual void AllGameStageFinished();
+		void StartStages();
 	private:
 		Application *mPtrOwner;
 		bool mBeginPlay;
@@ -53,7 +54,10 @@ namespace ly {
 
 		//Using shared pointer because we need to use delegate & timer 
 		List<shared<GameStage>> mGameStages;
-		int mCurrentStageIdx;
+		//Because if multiple stage, we cannot clean it just by index
+		//int mCurrentStageIdx;
+		//We use conatiner's iterator
+		List<shared<GameStage>>::iterator mCurrentStageIter;
 	};
 
 	template<typename actorType, typename... Args>
